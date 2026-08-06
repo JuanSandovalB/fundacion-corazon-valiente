@@ -30,7 +30,6 @@ export default function AdminSidebar() {
         </div>
 
         <div>
-
           <h2>
             Corazón Valiente
           </h2>
@@ -47,41 +46,32 @@ export default function AdminSidebar() {
 
       <nav>
 
-
         <Link href="/admin">
           Dashboard
         </Link>
-
 
         <Link href="/admin/voluntarios">
           Gestión de Voluntarios
         </Link>
 
-
         <Link href="/admin/donaciones">
           Donaciones
         </Link>
 
-
         <Link href="/admin/eventos">
           Eventos
         </Link>
-
 
       </nav>
 
 
 
       <button onClick={cerrarSesion}>
-
         Cerrar sesión
-
       </button>
-
 
 
     </aside>
 
   );
-
 }

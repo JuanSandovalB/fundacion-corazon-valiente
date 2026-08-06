@@ -594,17 +594,7 @@ export default async function Home() {
             <p>📍 Bogotá D.C., Colombia</p>
           </div>
 
-          <div>
-            <h3>Newsletter</h3>
-            <p>Recibe nuestras noticias, eventos y actividades.</p>
-
-            <form className="newsletter-form">
-              <input type="email" placeholder="Tu correo electrónico" />
-              <button type="submit" aria-label="Suscribirme">
-                ➤
-              </button>
-            </form>
-          </div>
+         
         </div>
 
         <div className="container footer-bottom">

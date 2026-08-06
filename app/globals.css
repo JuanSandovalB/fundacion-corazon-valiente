@@ -489,6 +489,11 @@ img {
   font-weight: 700;
 }
 
+
+
+
+
+
 /* =========================================================
    PROGRAMAS
 ========================================================= */
@@ -1450,44 +1455,7 @@ border-left:6px solid #dc3545;
 
 }
 
-/* =====================
-   ADMIN LAYOUT
-===================== */
 
-/* =====================
-   ADMIN LAYOUT
-===================== */
-
-
-.admin-layout{
-
-display:flex;
-min-height:100vh;
-background:#f8fafc;
-
-}
-
-
-/* =====================
-   SIDEBAR
-===================== */
-
-
-.admin-sidebar{
-
-width:260px;
-background:#ffffff;
-color:#1f2937;
-padding:30px 20px;
-
-display:flex;
-flex-direction:column;
-
-border-right:1px solid #e5e7eb;
-
-box-shadow:4px 0 15px rgba(0,0,0,.03);
-
-}
 
 
 
@@ -1633,9 +1601,13 @@ background:#b91c1c;
 
 flex:1;
 
-padding:40px 50px;
+width:calc(100% - 250px);
 
-background:#f9fafb;
+min-width:0;
+
+overflow-x:hidden;
+
+padding:40px;
 
 }
 
@@ -2284,7 +2256,9 @@ margin:auto;
 
 }
 
-
+/* ==========================PARTE 2  =================================================*/
+/* ==========================PARTE 2  =================================================*/
+/* ==========================PARTE 2  =================================================*/
 
 /* SECCIÓN EVENTOS */
 
@@ -3430,5 +3404,799 @@ margin-left:15px;
 background:#e9183f;
 
 color:white;
+
+}
+
+/* =========================================================
+   RESPONSIVE FINAL FUNDACIÓN CORAZÓN VALIENTE
+========================================================= */
+
+
+@media(max-width:1024px){
+
+.container{
+width:calc(100% - 40px);
+}
+
+
+/* HERO */
+
+.hero-grid{
+grid-template-columns:1fr;
+}
+
+
+.hero-content{
+text-align:center;
+}
+
+
+.hero h1,
+.hero-content > p{
+margin-left:auto;
+margin-right:auto;
+}
+
+
+.hero-buttons{
+justify-content:center;
+}
+
+
+.hero-visual{
+min-height:420px;
+}
+
+
+
+/* QUIENES SOMOS */
+
+.about-grid{
+grid-template-columns:1fr;
+}
+
+
+.about-content{
+text-align:center;
+}
+
+
+
+/* EVENTOS */
+
+.eventos-grid{
+
+grid-template-columns:
+repeat(2,1fr);
+
+}
+
+
+.evento-card{
+max-width:none;
+}
+
+
+
+/* LOGIN */
+
+.login-card{
+
+max-width:400px;
+
+}
+
+
+}
+
+
+
+@media(max-width:768px){
+
+
+.container{
+
+width:calc(100% - 30px);
+
+}
+
+
+
+/* =====================
+NAVBAR
+===================== */
+
+
+.navbar{
+
+min-height:70px;
+
+}
+
+
+.navbar-logo{
+
+width:130px;
+
+}
+
+
+.desktop-menu{
+
+display:none;
+
+}
+
+
+
+
+.login-link{
+
+margin-left:0;
+
+padding:10px 18px;
+
+font-size:14px;
+
+}
+
+
+
+/* =====================
+HERO
+===================== */
+
+
+.hero{
+
+padding-top:35px;
+
+}
+
+
+.hero h1{
+
+font-size:38px;
+
+letter-spacing:-1px;
+
+}
+
+
+.hero-content > p{
+
+font-size:16px;
+
+}
+
+
+.hero-buttons{
+
+flex-direction:column;
+
+align-items:center;
+
+}
+
+
+.hero-buttons .button{
+
+width:100%;
+
+max-width:320px;
+
+}
+
+
+.hero-visual{
+
+min-height:320px;
+
+}
+
+
+.hero-character{
+
+width:120px;
+
+height:150px;
+
+}
+
+
+.character-left{
+
+left:-10px;
+
+}
+
+
+.character-right{
+
+right:-10px;
+
+}
+
+
+
+/* =====================
+IMPACTO
+===================== */
+
+
+.impact-bar{
+
+grid-template-columns:1fr;
+
+padding:20px;
+
+}
+
+
+.impact-bar > div{
+
+border-right:none;
+
+border-bottom:1px solid rgba(255,255,255,.25);
+
+padding:15px 0;
+
+}
+
+
+
+/* =====================
+SECCIONES
+===================== */
+
+
+.section{
+
+padding:60px 0;
+
+}
+
+
+.section-heading h2,
+.about-content h2,
+.donation-section h2,
+.volunteer-section h2{
+
+font-size:32px;
+
+}
+
+
+
+
+/* =====================
+EVENTOS
+===================== */
+
+
+.eventos-hero{
+
+padding:70px 20px;
+
+}
+
+
+.eventos-hero h1{
+
+font-size:38px;
+
+}
+
+
+.eventos-hero p{
+
+font-size:17px;
+
+}
+
+
+.eventos-grid{
+
+grid-template-columns:1fr;
+
+gap:25px;
+
+}
+
+
+.evento-card{
+
+max-width:100%;
+
+}
+
+
+.evento-image-container{
+
+height:220px;
+
+}
+
+
+.evento-content{
+
+padding:25px;
+
+}
+
+
+.evento-content h2,
+.evento-content h3{
+
+font-size:24px;
+
+}
+
+
+
+
+
+/* =====================
+MODALES ADMIN
+===================== */
+
+
+.modal{
+
+padding:15px;
+
+}
+
+
+.modal-content{
+
+max-width:100%;
+
+padding:22px;
+
+max-height:90vh;
+
+}
+
+
+
+.modal-content button{
+
+width:100%;
+
+margin-right:0;
+
+}
+
+
+
+/* =====================
+TABLAS ADMIN
+===================== */
+
+
+.dashboard-card{
+
+overflow-x:auto;
+
+}
+
+
+.dashboard-card table{
+
+min-width:850px;
+
+}
+
+
+
+/* =====================
+LOGIN
+===================== */
+
+
+.login-page{
+
+padding:15px;
+
+}
+
+
+.login-card{
+
+padding:30px 22px;
+
+}
+
+
+.login-card h1{
+
+font-size:26px;
+
+}
+
+
+}
+
+
+@media(max-width:480px){
+
+
+.navbar-logo{
+
+width:115px;
+
+}
+
+
+.hero h1{
+
+font-size:32px;
+
+}
+
+
+.hero-character{
+
+display:none;
+
+}
+
+
+.eventos-hero h1{
+
+font-size:32px;
+
+}
+
+
+.login-card{
+
+border-radius:18px;
+
+}
+
+
+}
+/* =====================================================
+   ADMIN RESPONSIVE
+===================================================== */
+
+
+.admin-layout{
+
+display:flex;
+
+width:100%;
+
+min-height:100vh;
+
+background:#f8fafc;
+
+}
+
+
+/* SIDEBAR */
+
+.admin-sidebar{
+
+width:250px;
+min-height:100vh;
+background:white;
+border-right:1px solid #eee;
+
+display:flex;
+flex-direction:column;
+
+padding:25px;
+
+flex-shrink:0;
+
+}
+
+
+
+.admin-logo{
+
+display:flex;
+align-items:center;
+gap:12px;
+margin-bottom:40px;
+
+}
+
+
+.logo-circle{
+
+font-size:25px;
+
+}
+
+
+.admin-logo h2{
+
+font-size:16px;
+margin:0;
+color:#11152f;
+
+}
+
+
+.admin-logo span{
+
+font-size:12px;
+color:#777;
+
+}
+
+
+
+.admin-sidebar nav{
+
+display:flex;
+flex-direction:column;
+gap:15px;
+
+}
+
+
+.admin-sidebar nav a{
+
+font-size:14px;
+padding:10px;
+border-radius:10px;
+
+}
+
+
+
+.admin-sidebar nav a:hover{
+
+background:#fff0f2;
+color:#df1734;
+
+}
+
+
+
+.admin-sidebar button{
+
+margin-top:auto;
+
+background:#df1734;
+color:white;
+
+border:none;
+border-radius:20px;
+
+padding:10px;
+
+cursor:pointer;
+
+}
+
+
+
+/* CONTENIDO */
+
+.dashboard-page{
+
+flex:1;
+
+padding:40px;
+
+min-width:0;
+
+}
+
+
+
+.dashboard-title h1{
+
+font-size:40px;
+margin:0;
+
+}
+
+
+
+.dashboard-title p{
+
+color:#777;
+
+}
+
+
+
+/* TARJETAS */
+
+
+.dashboard-cards{
+
+display:grid;
+
+grid-template-columns:
+repeat(auto-fit,minmax(210px,1fr));
+
+gap:25px;
+
+margin-top:40px;
+
+}
+
+
+
+.dashboard-box{
+
+background:white;
+
+padding:25px;
+
+border-radius:20px;
+
+box-shadow:
+0 10px 25px rgba(0,0,0,.08);
+
+}
+
+
+
+.dashboard-box h3{
+
+font-size:15px;
+
+color:#555;
+
+margin-bottom:15px;
+
+}
+
+
+
+.dashboard-box strong{
+
+font-size:40px;
+
+color:#df1734;
+
+}
+
+
+
+/* TABLET */
+
+@media(max-width:900px){
+
+
+.admin-sidebar{
+
+width:210px;
+
+}
+
+
+.dashboard-page{
+
+padding:25px;
+
+}
+
+
+.dashboard-title h1{
+
+font-size:32px;
+
+}
+
+
+}
+
+
+
+/* CELULAR */
+
+@media(max-width:650px){
+
+
+.admin-layout{
+
+display:block;
+
+}
+
+
+
+.admin-sidebar{
+
+width:250px;
+
+flex-shrink:0;
+
+min-height:100vh;
+
+background:white;
+
+border-right:1px solid #eee;
+
+padding:25px;
+
+display:flex;
+
+flex-direction:column;
+
+}
+
+
+
+.admin-sidebar nav{
+
+display:grid;
+
+grid-template-columns:1fr 1fr;
+
+}
+
+
+
+.admin-sidebar button{
+
+margin-top:25px;
+
+}
+
+
+
+.dashboard-page{
+
+padding:20px;
+
+}
+
+
+
+.dashboard-cards{
+
+grid-template-columns:1fr;
+
+}
+
+
+
+.dashboard-box strong{
+
+font-size:32px;
+
+}
+
+
+}
+@media(max-width:768px){
+
+
+.admin-layout{
+
+flex-direction:column;
+
+}
+
+
+.admin-sidebar{
+
+width:100%;
+
+min-height:auto;
+
+}
+
+
+
+.admin-content{
+
+width:100%;
+
+padding:20px;
+
+}
+
 
 }

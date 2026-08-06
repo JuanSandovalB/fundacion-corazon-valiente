@@ -11,7 +11,7 @@ export async function createClientServer(){
 
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
 
-    process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
 
     {
 
@@ -37,12 +37,7 @@ export async function createClientServer(){
 
             });
 
-          } catch {
-
-            // En Server Components no siempre permite escribir cookies.
-            // El proxy se encargará de refrescarlas.
-
-          }
+          } catch {}
 
         }
 
