@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
 import Link from "next/link";
 import Image from "next/image";
 import Navbar from "./components/Navbar";
@@ -71,12 +73,20 @@ const acciones = [
 ];
 
 export default async function Home() {
-  const { data: eventos } = await supabaseAdmin
+  const { data: eventos, error } = await supabaseAdmin
     .from("eventos")
     .select("*")
     .eq("estado", "activo")
     .order("fecha", { ascending: true });
+
+
+  if (error) {
+    console.error("ERROR EVENTOS HOME:", error);
+  }
+
+
   console.log("EVENTOS HOME:", eventos);
+
   return (
     <main>
       <header className="site-header">
@@ -103,20 +113,20 @@ export default async function Home() {
             <a href="#contacto">Contacto</a>
           </nav>
 
-         <Link
-href="/dona"
-className="header-action header-donate"
->
-❤️ Quiero ayudar
-</Link>
+          <Link
+            href="/dona"
+            className="header-action header-donate"
+          >
+            ❤️ Quiero ayudar
+          </Link>
 
 
-<Link
-href="/login"
-className="header-action header-login"
->
-Administrador
-</Link>
+          <Link
+            href="/login"
+            className="header-action header-login"
+          >
+            Administrador
+          </Link>
         </div>
       </header>
 
@@ -374,115 +384,170 @@ Administrador
 
           </div>
 
-
-
           <div className="eventos-grid">
 
-
-
             {
-              eventos?.map((evento) => (
+              eventos && eventos.length > 0 ? (
+
+                eventos.map((evento) => (
 
 
-                <article
+                  <article
 
-                  key={evento.id}
+                    key={evento.id}
 
-                  className="evento-card"
+                    className="evento-card"
 
-                >
-
-
-                  {
-                    evento.imagen && (
-
-                      <div className="evento-image-container">
+                  >
 
 
-                        <img
-
-                          src={evento.imagen}
-
-                          alt={evento.titulo}
-
-                          className="evento-image"
-
-                        />
+                    <div className="evento-image-container">
 
 
-                      </div>
+                      {
 
-                    )
+                        evento.imagen ? (
 
-                  }
+                          <img
 
+                            src={evento.imagen}
 
+                            alt={evento.titulo}
 
-                  <div className="evento-content">
+                            className="evento-image"
 
+                          />
 
-                    <span className="evento-date">
+                        )
 
-                      <span className="icon-date"></span>
+                          :
 
-                      {new Date(evento.fecha)
-                        .toLocaleDateString("es-CO")}
+                          (
 
-                    </span>
+                            <div className="photo-placeholder">
 
+                              <span>
+                                ❤️
+                              </span>
 
+                            </div>
 
-                    <h3>
+                          )
 
-                      {evento.titulo}
+                      }
 
-                    </h3>
-
-
-
-                    <p>
-
-                      {evento.descripcion}
-
-                    </p>
-
-
-
-                    <div className="evento-location">
-
-                      <span className="icon-location"></span>
-
-                      {evento.lugar}
 
                     </div>
 
 
-                    <Link
-
-                      href="/eventos"
-
-                      className="evento-button"
-
-                    >
-
-                      Conocer evento
-
-                    </Link>
 
 
+
+                    <div className="evento-content">
+
+
+
+                      <span className="evento-date">
+
+                        <span className="icon-date"></span>
+
+
+                        {new Date(evento.fecha)
+                          .toLocaleDateString("es-CO")}
+
+
+                      </span>
+
+
+
+
+
+                      <h3>
+
+                        {evento.titulo}
+
+                      </h3>
+
+
+
+
+
+                      <p>
+
+                        {evento.descripcion}
+
+                      </p>
+
+
+
+
+
+                      <div className="evento-location">
+
+
+                        <span className="icon-location"></span>
+
+
+                        {evento.lugar || "Lugar por confirmar"}
+
+
+                      </div>
+
+
+
+
+
+                      <Link
+
+                        href="/eventos"
+
+                        className="evento-button"
+
+                      >
+
+                        Conocer evento
+
+                      </Link>
+
+
+
+                    </div>
+
+
+
+                  </article>
+
+
+
+                ))
+
+              )
+
+                :
+
+                (
+
+                  <div className="evento-vacio">
+
+                    <h3>
+                      Próximamente tendremos nuevos eventos
+                    </h3>
+
+                    <p>
+                      Estamos preparando actividades para compartir con nuestra comunidad.
+                    </p>
 
                   </div>
 
-
-                </article>
-
-
-              ))
+                )
 
             }
 
 
           </div>
+
+
+
 
         </div>
 

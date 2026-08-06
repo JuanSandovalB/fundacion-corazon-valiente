@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
 import { verificarAdministrador } from "@/lib/auth";
+import { revalidatePath } from "next/cache";
 
 
 

@@ -302,9 +302,16 @@ evento.hora && (
 
 
 
-<Link
+<a
 
-href="/voluntariado"
+href={`https://wa.me/573118449229?text=${encodeURIComponent(
+`Hola Fundación Corazón Valiente, quiero participar en el evento "${evento.titulo}". 
+Me gustaría recibir más información sobre fecha, lugar y requisitos de participación.`
+)}`}
+
+target="_blank"
+
+rel="noopener noreferrer"
 
 className="evento-button"
 
@@ -312,8 +319,7 @@ className="evento-button"
 
 Quiero participar
 
-</Link>
-
+</a>
 
 
 
