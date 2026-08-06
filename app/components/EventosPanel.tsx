@@ -64,14 +64,54 @@ export default function EventosPanel({ eventosIniciales }: Props) {
                   </span>
                 </td>
 
-                <td>
-                  <button
-                    className="admin-action"
-                    onClick={() => setSeleccionado(evento)}
-                  >
-                    Gestionar
-                  </button>
-                </td>
+               <td className="acciones-evento">
+
+  <button
+    className="admin-action"
+    onClick={() => setSeleccionado(evento)}
+  >
+    Gestionar
+  </button>
+
+
+  <button
+    className="delete-button"
+    onClick={async () => {
+
+      const confirmar = window.confirm(
+        "¿Está seguro de eliminar este evento?"
+      );
+
+      if (!confirmar) return;
+
+
+      const respuesta = await fetch("/api/eventos", {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          id: evento.id
+        })
+      });
+
+
+      if (respuesta.ok) {
+
+        setEventos(
+          eventos.filter(
+            (item) => item.id !== evento.id
+          )
+        );
+
+      }
+
+    }}
+  >
+    Eliminar
+  </button>
+
+</td>
               </tr>
             ))}
           </tbody>
@@ -309,9 +349,9 @@ export default function EventosPanel({ eventosIniciales }: Props) {
                     eventos.map((item) =>
                       item.id === seleccionado.id
                         ? {
-                            ...seleccionado,
-                            imagen: imagenFinal,
-                          }
+                          ...seleccionado,
+                          imagen: imagenFinal,
+                        }
                         : item
                     )
                   );
