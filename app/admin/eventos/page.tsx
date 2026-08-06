@@ -1,3 +1,4 @@
+
 import EventosPanel from "../../components/EventosPanel";
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
 

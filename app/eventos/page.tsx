@@ -1,21 +1,21 @@
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
 import Link from "next/link";
 import Navbar from "../components/Navbar";
 
-
 export default async function EventosPage(){
 
 
-const {data:eventos}=await supabaseAdmin
-
+const {data:eventos,error}=await supabaseAdmin
 .from("eventos")
-
 .select("*")
-
-.eq("estado","activo")
-
 .order("fecha",{ascending:true});
 
+
+console.log("EVENTOS PUBLICOS:", eventos);
+console.log("ERROR EVENTOS:", error);
 
 
 return(
