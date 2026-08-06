@@ -37,19 +37,12 @@ height={70}
 
 
 
-
 <Link
-
 href="/dona"
-
-className="nav-donate"
-
+className="navbar-action nav-donate"
 >
-
 ❤️ Quiero ayudar
-
 </Link>
-
 
 
 </header>

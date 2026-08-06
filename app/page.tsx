@@ -103,18 +103,20 @@ export default async function Home() {
             <a href="#contacto">Contacto</a>
           </nav>
 
-          <Link
-            href="/dona"
-            className="button button-primary header-button"
-          >
-            ♡ Quiero ayudar
-          </Link>
-          <Link
-            href="/login"
-            className="login-link"
-          >
-             Administrador
-          </Link>
+         <Link
+href="/dona"
+className="header-action header-donate"
+>
+❤️ Quiero ayudar
+</Link>
+
+
+<Link
+href="/login"
+className="header-action header-login"
+>
+Administrador
+</Link>
         </div>
       </header>
 
@@ -594,7 +596,7 @@ export default async function Home() {
             <p>📍 Bogotá D.C., Colombia</p>
           </div>
 
-         
+
         </div>
 
         <div className="container footer-bottom">
