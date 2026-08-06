@@ -1,28 +1,18 @@
-import { createClientServer } from "./supabaseServer";
+import { cookies } from "next/headers";
+import { supabaseAdmin } from "./supabaseAdmin";
 
 
 export async function verificarAdministrador(){
 
-
-const supabase = await createClientServer();
-
-
-const {
-data:{
-user
-}
-
-}=await supabase.auth.getUser();
+const cookieStore = await cookies();
 
 
-
-console.log("USUARIO ACTUAL:", user);
-
+const session = cookieStore.get("admin_session");
 
 
-if(!user){
+if(!session){
 
-console.log("NO HAY USUARIO");
+console.log("NO HAY SESION ADMIN");
 
 return false;
 
@@ -30,27 +20,21 @@ return false;
 
 
 
-const {data,error}=await supabase
+const {data,error}=await supabaseAdmin
 
 .from("administradores")
 
 .select("*")
 
-.eq(
-"email",
-user.email
-)
+.eq("id",session.value)
 
-.eq(
-"activo",
-true
-)
+.eq("activo",true)
 
 .single();
 
-console.log("ADMIN ENCONTRADO:", data);
 
-console.log("ERROR ADMIN:", error);
+
+console.log("ADMIN SESION:",data);
 
 
 

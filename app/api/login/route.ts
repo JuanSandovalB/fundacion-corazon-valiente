@@ -142,11 +142,12 @@ data.id,
 
 httpOnly:true,
 
-secure:false,
+secure:true,
 
 sameSite:"lax",
 
-maxAge:60*60*8
+maxAge:60*60*8,
+path:"/"
 
 }
 
