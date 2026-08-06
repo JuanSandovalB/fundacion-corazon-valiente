@@ -1,6 +1,6 @@
 import { redirect } from "next/navigation";
 import { verificarAdministrador } from "@/lib/auth";
-import { createClientServer } from "@/lib/supabaseServer";
+import { supabaseAdmin } from "@/lib/supabaseAdmin";
 import DonacionesPanel from "./DonacionesPanel";
 
 
@@ -21,7 +21,7 @@ redirect("/login");
 
 
 const supabase =
-await createClientServer();
+await supabaseAdmin;
 
 
 

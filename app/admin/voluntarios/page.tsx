@@ -1,6 +1,6 @@
 import { verificarAdministrador } from "@/lib/auth";
 import { redirect } from "next/navigation";
-import { createClientServer } from "@/lib/supabaseServer";
+import { supabaseAdmin } from "@/lib/supabaseAdmin";
 import VoluntariosPanel from "./VoluntariosPanel";
 
 
@@ -18,7 +18,7 @@ redirect("/login");
 
 
 
-const supabase = await createClientServer();
+const supabase = await supabaseAdmin;
 
 
 
