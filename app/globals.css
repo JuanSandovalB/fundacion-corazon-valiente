@@ -3791,3 +3791,31 @@ font-size:11px;
 }
 
 }
+.login-back{
+
+display:inline-flex;
+align-items:center;
+justify-content:center;
+
+margin-top:20px;
+
+color:#e9183f;
+
+font-size:14px;
+
+font-weight:700;
+
+text-decoration:none;
+
+transition:.3s ease;
+
+}
+
+
+.login-back:hover{
+
+color:#b60f28;
+
+transform:translateX(-3px);
+
+}
