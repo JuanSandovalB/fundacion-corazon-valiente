@@ -637,16 +637,14 @@ export default async function Home() {
               <a href="https://www.instagram.com/fundacioncorazonvaliente?igsh=a2VzemdnN2FvNjQy" aria-label="Instagram">
                 IG
               </a>
-              <a href="https://www.facebook.com/fundacioncorazonvaliente" aria-label="Facebook">
+              <a href="https://www.facebook.com/profile.php?id=61592853252677" aria-label="Facebook">
                 FB
               </a>
               <a href="https://www.tiktok.com/@fundacin.corazn.v?_r=1&_t=ZS-98RcLqbpZOj" aria-label="tiktok">
 
                 TK
               </a>
-              <a href="https://www.youtube.com/@fundacioncorazonvaliente" aria-label="YouTube">
-                YT
-              </a>
+             
             </div>
 
             <p>@fundacioncorazonvaliente</p>
