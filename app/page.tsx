@@ -4,6 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import Navbar from "./components/Navbar";
 
+
 import { supabaseAdmin } from "../lib/supabaseAdmin";
 import VolunteerForm from "./components/VolunteerForm";
 const programas = [
@@ -655,9 +656,9 @@ export default async function Home() {
             <h3>Información institucional</h3>
             <p><strong>Fundación Corazón Valiente Colombia</strong></p>
             <p>NIT: 902.061.743</p>
-            <p>📞 310 2576909 </p>
-            <p>✉️ johadamian@gmail.com</p>
-            <p>📍 Bogotá D.C., Colombia</p>
+            <p>📞 3118449229 </p>
+            <p>✉️ fundacioncorazonvalienteco@gmail.com</p>
+            <p>📍 Bogotá D.C./ Boyacá, Colombia</p>
           </div>
 
 
