@@ -1,7 +1,22 @@
 "use client";
 
 import { FormEvent, useState } from "react";
+import type { Metadata } from "next";
 
+export const metadata: Metadata = {
+  title: "Voluntariado",
+  description:
+    "Únete como voluntario a la Fundación Corazón Valiente y participa en iniciativas sociales y comunitarias.",
+  alternates: {
+    canonical: "/voluntariado",
+  },
+  openGraph: {
+    title: "Voluntariado | Fundación Corazón Valiente",
+    description:
+      "Haz parte de nuestras iniciativas sociales y comunitarias como voluntario.",
+    url: "/voluntariado",
+  },
+};
 
 type FormStatus = "idle" | "sending" | "success" | "error";
 
@@ -39,12 +54,12 @@ export default function VolunteerForm() {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        nombre,
-        correo,
-        telefono,
-        mensaje,
-        
-      }),
+  nombre,
+  correo,
+  telefono,
+  mensaje,
+  website,
+}),
     });
 
     const data = await response.json();
@@ -124,7 +139,28 @@ export default function VolunteerForm() {
         />
       </label>
 
-      
+      <div
+  aria-hidden="true"
+  style={{
+    position: "absolute",
+    left: "-9999px",
+    width: "1px",
+    height: "1px",
+    overflow: "hidden",
+  }}
+>
+  <label htmlFor="website">
+    Sitio web
+  </label>
+
+  <input
+    id="website"
+    type="text"
+    name="website"
+    tabIndex={-1}
+    autoComplete="off"
+  />
+</div>
 
       <label className="privacy-check">
         <input type="checkbox" required />

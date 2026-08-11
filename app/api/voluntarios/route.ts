@@ -1,8 +1,12 @@
 import { NextResponse } from "next/server";
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
-import { createClientServer } from "@/lib/supabaseServer";
 import { verificarAdministrador } from "@/lib/auth";
 
+import {
+  obtenerIP,
+  verificarRateLimitVoluntariado,
+  registrarSolicitudVoluntariado,
+} from "@/lib/rateLimit";
 
 
 // ===============================
@@ -11,92 +15,228 @@ import { verificarAdministrador } from "@/lib/auth";
 // ===============================
 
 export async function POST(request: Request) {
-
   try {
-
     const body = await request.json();
 
+    // ===============================
+    // HONEYPOT ANTISPAM
+    // ===============================
 
-    console.log(
-      "INSERTANDO VOLUNTARIO:",
-      body
-    );
+    if (body.website) {
+      return NextResponse.json(
+        {
+          success: true,
+          message:
+            "¡Gracias por registrarte! Tu solicitud de voluntariado fue enviada correctamente.",
+        },
+        {
+          status: 200,
+        }
+      );
+    }
 
+    // ===============================
+    // RATE LIMIT
+    // ===============================
 
-    const {data,error}=await supabaseAdmin
-      .from("voluntarios")
-      .insert({
+    const ip = obtenerIP(request);
 
-        nombre: body.nombre,
+    const rateLimit =
+      await verificarRateLimitVoluntariado(ip);
 
-        correo: body.correo,
+    if (!rateLimit.permitido) {
+      return NextResponse.json(
+        {
+          error:
+            "Se han enviado varias solicitudes recientemente. Intenta nuevamente más tarde.",
+        },
+        {
+          status: 429,
+        }
+      );
+    }
 
-        telefono: body.telefono,
+    // ===============================
+    // LEER Y LIMPIAR DATOS
+    // ===============================
 
-        mensaje: body.mensaje,
+    const nombre =
+      body.nombre?.trim();
 
-        estado: "pendiente"
+    const correo =
+      body.correo
+        ?.trim()
+        .toLowerCase();
 
-      })
-      .select();
+    const telefono =
+      body.telefono?.trim();
 
+    const mensaje =
+      body.mensaje?.trim();
 
-    if(error){
+    // ===============================
+    // VALIDAR CAMPOS OBLIGATORIOS
+    // ===============================
 
+    if (!nombre || !correo || !telefono) {
+      return NextResponse.json(
+        {
+          error:
+            "Nombre, correo y teléfono son obligatorios",
+        },
+        {
+          status: 400,
+        }
+      );
+    }
+
+    // ===============================
+    // VALIDAR CORREO
+    // ===============================
+
+    const emailRegex =
+      /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!emailRegex.test(correo)) {
+      return NextResponse.json(
+        {
+          error:
+            "El correo electrónico no es válido",
+        },
+        {
+          status: 400,
+        }
+      );
+    }
+
+    // ===============================
+    // VALIDAR LONGITUDES
+    // ===============================
+
+    if (nombre.length > 120) {
+      return NextResponse.json(
+        {
+          error:
+            "El nombre es demasiado largo",
+        },
+        {
+          status: 400,
+        }
+      );
+    }
+
+    if (correo.length > 180) {
+      return NextResponse.json(
+        {
+          error:
+            "El correo es demasiado largo",
+        },
+        {
+          status: 400,
+        }
+      );
+    }
+
+    if (telefono.length > 30) {
+      return NextResponse.json(
+        {
+          error:
+            "El teléfono es demasiado largo",
+        },
+        {
+          status: 400,
+        }
+      );
+    }
+
+    if (
+      mensaje &&
+      mensaje.length > 1500
+    ) {
+      return NextResponse.json(
+        {
+          error:
+            "El mensaje es demasiado largo",
+        },
+        {
+          status: 400,
+        }
+      );
+    }
+
+    // ===============================
+    // GUARDAR VOLUNTARIO
+    // ===============================
+
+    const { data, error } =
+      await supabaseAdmin
+        .from("voluntarios")
+        .insert({
+          nombre,
+          correo,
+          telefono,
+          mensaje: mensaje || null,
+          estado: "pendiente",
+        })
+        .select(
+          "id,nombre,estado"
+        )
+        .single();
+
+    if (error) {
       console.error(
-        "ERROR INSERT:",
+        "Error registrando voluntario:",
         error
       );
 
-
       return NextResponse.json(
         {
-          error:error.message
+          error:
+            "No fue posible enviar la solicitud de voluntariado",
         },
         {
-          status:500
+          status: 500,
         }
       );
-
     }
 
+    // ===============================
+    // REGISTRAR SOLICITUD PARA RATE LIMIT
+    // ===============================
 
-   return NextResponse.json(
-{
-success:true,
-message:"¡Gracias por registrarte! Tu solicitud de voluntariado fue enviada correctamente.",
-data
-},
-{
-status:200
-}
-);
-
-
-  } catch(error){
-
-
-    console.error(
-      "ERROR GENERAL:",
-      error
+    await registrarSolicitudVoluntariado(
+      ip
     );
-
 
     return NextResponse.json(
       {
-        error:"Error interno"
+        success: true,
+        message:
+          "¡Gracias por registrarte! Tu solicitud de voluntariado fue enviada correctamente.",
+        data,
       },
       {
-        status:500
+        status: 201,
       }
     );
 
+  } catch (error) {
+    console.error(
+      "Error en POST voluntarios:",
+      error
+    );
 
+    return NextResponse.json(
+      {
+        error:
+          "Solicitud inválida",
+      },
+      {
+        status: 400,
+      }
+    );
   }
-
 }
-
-
 
 
 // ===============================
@@ -104,166 +244,253 @@ status:200
 // SOLO ADMIN
 // ===============================
 
-export async function PUT(request: Request){
+export async function PUT(
+  request: Request
+) {
+  const admin =
+    await verificarAdministrador();
 
-
-  const autorizado = await verificarAdministrador();
-
-
-  if(!autorizado){
-
+  if (!admin) {
     return NextResponse.json(
       {
-        error:"No autorizado"
+        error: "No autorizado",
       },
       {
-        status:401
+        status: 401,
       }
     );
-
   }
 
+  try {
+    const body =
+      await request.json();
 
+    if (!body.id) {
+      return NextResponse.json(
+        {
+          error:
+            "ID de voluntario requerido",
+        },
+        {
+          status: 400,
+        }
+      );
+    }
 
-  const body = await request.json();
+    const estadosPermitidos = [
+      "pendiente",
+      "contactado",
+      "aprobado",
+      "cerrado",
+    ];
 
+    if (
+      !body.estado ||
+      !estadosPermitidos.includes(
+        body.estado
+      )
+    ) {
+      return NextResponse.json(
+        {
+          error:
+            "Estado de voluntario no válido",
+        },
+        {
+          status: 400,
+        }
+      );
+    }
 
+    if (
+      body.notas_admin &&
+      body.notas_admin.length > 2000
+    ) {
+      return NextResponse.json(
+        {
+          error:
+            "Las notas administrativas son demasiado largas",
+        },
+        {
+          status: 400,
+        }
+      );
+    }
 
-  const supabase = await createClientServer();
+    const { data, error } =
+      await supabaseAdmin
+        .from("voluntarios")
+        .update({
+          estado:
+            body.estado,
 
-const { data: rol } = await supabase.rpc(
-  "test_role"
-);
+          notas_admin:
+            body.notas_admin?.trim() ||
+            null,
 
-console.log(
-  "ROL DESDE API:",
-  rol
-);
+          fecha_contacto:
+            body.fecha_contacto ||
+            null,
+        })
+        .eq(
+          "id",
+          body.id
+        )
+        .select();
 
-  const {data,error}= await supabase
+    if (error) {
+      console.error(
+        "Error actualizando voluntario:",
+        error
+      );
 
-    .from("voluntarios")
+      return NextResponse.json(
+        {
+          error:
+            "No fue posible actualizar el voluntario",
+        },
+        {
+          status: 500,
+        }
+      );
+    }
 
-    .update({
+    if (
+      !data ||
+      data.length === 0
+    ) {
+      return NextResponse.json(
+        {
+          error:
+            "Voluntario no encontrado",
+        },
+        {
+          status: 404,
+        }
+      );
+    }
 
-      estado: body.estado,
+    return NextResponse.json({
+      success: true,
+      data,
+    });
 
-      notas_admin: body.notas_admin,
-
-      fecha_contacto: body.fecha_contacto
-
-    })
-
-    .eq(
-      "id",
-      body.id
-    )
-
-    .select();
-
-
-
-  if(error){
-
+  } catch (error) {
     console.error(
-      "ERROR UPDATE:",
+      "Error en PUT voluntarios:",
       error
     );
 
-
     return NextResponse.json(
       {
-        error:error.message
+        error:
+          "Solicitud inválida",
       },
       {
-        status:500
+        status: 400,
       }
     );
-
   }
-
-
-
-  return NextResponse.json({
-
-    success:true,
-
-    data
-
-  });
-
-
 }
+
+
 // ===============================
 // ELIMINAR VOLUNTARIO
 // SOLO ADMIN
 // ===============================
 
-export async function DELETE(request:Request){
+export async function DELETE(
+  request: Request
+) {
+  const admin =
+    await verificarAdministrador();
 
+  if (!admin) {
+    return NextResponse.json(
+      {
+        error: "No autorizado",
+      },
+      {
+        status: 401,
+      }
+    );
+  }
 
-const autorizado = await verificarAdministrador();
+  try {
+    const body =
+      await request.json();
 
+    if (!body.id) {
+      return NextResponse.json(
+        {
+          error:
+            "ID de voluntario requerido",
+        },
+        {
+          status: 400,
+        }
+      );
+    }
 
-if(!autorizado){
+    const { data, error } =
+      await supabaseAdmin
+        .from("voluntarios")
+        .delete()
+        .eq(
+          "id",
+          body.id
+        )
+        .select("id");
 
-return NextResponse.json(
-{
-error:"No autorizado"
-},
-{
-status:401
+    if (error) {
+      console.error(
+        "Error eliminando voluntario:",
+        error
+      );
+
+      return NextResponse.json(
+        {
+          error:
+            "No fue posible eliminar el voluntario",
+        },
+        {
+          status: 500,
+        }
+      );
+    }
+
+    if (
+      !data ||
+      data.length === 0
+    ) {
+      return NextResponse.json(
+        {
+          error:
+            "Voluntario no encontrado",
+        },
+        {
+          status: 404,
+        }
+      );
+    }
+
+    return NextResponse.json({
+      success: true,
+    });
+
+  } catch (error) {
+    console.error(
+      "Error en DELETE voluntarios:",
+      error
+    );
+
+    return NextResponse.json(
+      {
+        error:
+          "Solicitud inválida",
+      },
+      {
+        status: 400,
+      }
+    );
+  }
 }
-);
-
-}
-
-
-
-const body = await request.json();
-
-
-
-const {error}=await supabaseAdmin
-
-.from("voluntarios")
-
-.delete()
-
-.eq(
-"id",
-body.id
-);
-
-
-
-if(error){
-
-console.error(
-"ERROR DELETE:",
-error
-);
-
-
-return NextResponse.json(
-{
-error:error.message
-},
-{
-status:500
-}
-);
-
-}
-
-
-
-return NextResponse.json({
-
-success:true
-
-});
-
-
-}
-

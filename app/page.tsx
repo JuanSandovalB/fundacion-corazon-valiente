@@ -85,7 +85,7 @@ export default async function Home() {
   }
 
 
-  console.log("EVENTOS HOME:", eventos);
+ 
 
   return (
     <main>
@@ -108,7 +108,7 @@ export default async function Home() {
             <a href="#programas">Programas</a>
             <a href="#eventos">Eventos</a>
 
-            <a href="#dona">Dona</a>
+            <a href="#donar">Dona</a>
             <a href="#voluntariado">Voluntariado</a>
             <a href="#contacto">Contacto</a>
           </nav>
@@ -408,14 +408,13 @@ export default async function Home() {
 
                         evento.imagen ? (
 
-                          <img
-
+                          <Image
                             src={evento.imagen}
-
                             alt={evento.titulo}
-
+                            width={600}
+                            height={400}
                             className="evento-image"
-
+                            sizes="(max-width: 768px) 100vw, 33vw"
                           />
 
                         )

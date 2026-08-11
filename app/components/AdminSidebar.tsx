@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { supabase } from "@/lib/supabase";
+
 import { useRouter } from "next/navigation";
 
 export default function AdminSidebar() {
@@ -9,14 +9,14 @@ export default function AdminSidebar() {
   const router = useRouter();
 
 
-  async function cerrarSesion() {
+async function cerrarSesion() {
+  await fetch("/api/logout", {
+    method: "POST",
+  });
 
-    await supabase.auth.signOut();
-
-    router.push("/login");
-
-  }
-
+  router.push("/login");
+  router.refresh();
+}
 
   return (
 

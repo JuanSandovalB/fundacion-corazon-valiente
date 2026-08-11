@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import Image from "next/image";
 
 
 export default function LoginPage(){
@@ -98,14 +99,13 @@ return(
 <div className="login-card">
 
 
-<img
-
-src="/images/logo.png"
-
-alt="Fundación Corazón Valiente"
-
-className="login-logo"
-
+<Image
+  src="/images/logo.png"
+  alt="Fundación Corazón Valiente"
+  width={190}
+  height={90}
+  className="login-logo"
+  priority
 />
 
 

@@ -1,52 +1,34 @@
+
+import "server-only";
 import { cookies } from "next/headers";
 import { supabaseAdmin } from "./supabaseAdmin";
+import { verificarSesionFirmada } from "./session";
 
+export async function verificarAdministrador() {
+  const cookieStore = await cookies();
 
-export async function verificarAdministrador(){
+  const session = cookieStore.get("admin_session");
 
-const cookieStore = await cookies();
+  if (!session) {
+    return null;
+  }
 
+  const adminId = verificarSesionFirmada(session.value);
 
-const session = cookieStore.get("admin_session");
+  if (!adminId) {
+    return null;
+  }
 
+  const { data, error } = await supabaseAdmin
+    .from("administradores")
+    .select("id,email,rol,activo")
+    .eq("id", adminId)
+    .eq("activo", true)
+    .single();
 
-if(!session){
+  if (error || !data) {
+    return null;
+  }
 
-console.log("NO HAY SESION ADMIN");
-
-return false;
-
-}
-
-
-
-const {data,error}=await supabaseAdmin
-
-.from("administradores")
-
-.select("*")
-
-.eq("id",session.value)
-
-.eq("activo",true)
-
-.single();
-
-
-
-console.log("ADMIN SESION:",data);
-
-
-
-if(error || !data){
-
-return false;
-
-}
-
-
-
-return true;
-
-
+  return data;
 }

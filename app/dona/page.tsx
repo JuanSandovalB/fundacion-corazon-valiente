@@ -1,5 +1,21 @@
 import DonationForm from "../components/DonationForm";
 import Navbar from "../components/Navbar";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Donaciones",
+  description:
+    "Apoya los programas sociales de la Fundación Corazón Valiente y contribuye al bienestar de niños, familias y comunidades.",
+  alternates: {
+    canonical: "/donaciones",
+  },
+  openGraph: {
+    title: "Donaciones | Fundación Corazón Valiente",
+    description:
+      "Con tu apoyo podemos seguir desarrollando programas sociales para niños, familias y comunidades.",
+    url: "/donaciones",
+  },
+};
 
 
 

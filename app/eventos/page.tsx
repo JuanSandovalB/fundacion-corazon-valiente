@@ -2,24 +2,39 @@ export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
 
-import Link from "next/link";
+
 import Navbar from "../components/Navbar";
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
+import type { Metadata } from "next";
+import Image from "next/image";
 
+export const metadata: Metadata = {
+  title: "Eventos",
+  description:
+    "Conoce las actividades, jornadas y espacios de participación de la Fundación Corazón Valiente.",
+  alternates: {
+    canonical: "/eventos",
+  },
+  openGraph: {
+    title: "Eventos | Fundación Corazón Valiente",
+    description:
+      "Conoce las actividades y espacios de participación de la Fundación Corazón Valiente.",
+    url: "/eventos",
+  },
+};
 
 
 async function obtenerEventos(){
 
-const {data,error}=await supabaseAdmin
-
-.from("eventos")
-
-.select("*")
-
-.eq("estado","activo")
-
-.order("fecha",{ascending:true});
-
+const { data, error } = await supabaseAdmin
+  .from("eventos")
+  .select(
+    "id,titulo,descripcion,fecha,hora,lugar,imagen,estado"
+  )
+  .eq("estado", "activo")
+  .order("fecha", {
+    ascending: true,
+  });
 
 
 if(error){
@@ -143,14 +158,13 @@ className="evento-card"
 evento.imagen ? (
 
 
-<img
-
-src={evento.imagen}
-
-alt={evento.titulo}
-
-className="evento-image"
-
+<Image
+  src={evento.imagen}
+  alt={evento.titulo}
+  width={600}
+  height={400}
+  className="evento-image"
+  sizes="(max-width: 768px) 100vw, 50vw"
 />
 
 
