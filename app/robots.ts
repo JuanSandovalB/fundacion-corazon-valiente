@@ -12,7 +12,7 @@ export default function robots(): MetadataRoute.Robots {
       ],
     },
 
-    sitemap:
-      "https://fundacioncorazonvaliente.com/sitemap.xml",
+   sitemap:
+  "https://www.fundacioncorazonvaliente.com/sitemap.xml",
   };
 }

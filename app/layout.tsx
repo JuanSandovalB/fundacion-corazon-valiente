@@ -14,8 +14,8 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   metadataBase: new URL(
-    "https://fundacioncorazonvaliente.com"
-  ),
+  "https://www.fundacioncorazonvaliente.com"
+),
 
   title: {
     default: "Fundación Corazón Valiente",
