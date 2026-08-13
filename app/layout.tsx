@@ -23,13 +23,14 @@ export const metadata: Metadata = {
   },
 
   description:
-    "Fundación dedicada al acompañamiento social, comunitario y educativo de niños, familias y comunidades.",
+    "Fundación Corazón Valiente acompaña, protege e impulsa a niños, familias y comunidades mediante programas sociales, voluntariado, educación y apoyo comunitario en Colombia.",
 
   applicationName:
     "Fundación Corazón Valiente",
 
   keywords: [
     "Fundación Corazón Valiente",
+    "Fundación Corazón Valiente Colombia",
     "fundación social",
     "voluntariado",
     "ayuda social",
@@ -50,6 +51,21 @@ export const metadata: Metadata = {
 
   publisher: "Fundación Corazón Valiente",
 
+  icons: {
+    icon: [
+      {
+        url: "/favicon.ico",
+        type: "image/x-icon",
+      },
+      {
+        url: "/icon.png",
+        type: "image/png",
+      },
+    ],
+    shortcut: "/favicon.ico",
+    apple: "/icon.png",
+  },
+
   alternates: {
     canonical: "/",
   },
@@ -57,7 +73,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Fundación Corazón Valiente",
     description:
-      "Transformamos vidas a través del acompañamiento social, comunitario y educativo.",
+      "Acompañamos, protegemos e impulsamos a niños, familias y comunidades para generar dignidad, esperanza y oportunidades.",
     url: "/",
     siteName: "Fundación Corazón Valiente",
     locale: "es_CO",
@@ -68,7 +84,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Fundación Corazón Valiente",
     description:
-      "Transformamos vidas a través del acompañamiento social, comunitario y educativo.",
+      "Acompañamos, protegemos e impulsamos a niños, familias y comunidades para generar dignidad, esperanza y oportunidades.",
   },
 
   robots: {
@@ -77,6 +93,9 @@ export const metadata: Metadata = {
     googleBot: {
       index: true,
       follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1,
     },
   },
 };

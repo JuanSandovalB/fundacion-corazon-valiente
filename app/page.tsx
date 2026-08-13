@@ -132,8 +132,7 @@ export default async function Home() {
       </header>
 
       <section id="inicio" className="hero">
-        <div className="hero-decoration hero-decoration-one">♡</div>
-        <div className="hero-decoration hero-decoration-two">♡</div>
+        
 
         <div className="container hero-grid">
           <div className="hero-content">
