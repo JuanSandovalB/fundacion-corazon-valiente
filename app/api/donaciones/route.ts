@@ -1,8 +1,6 @@
 import { NextResponse } from "next/server";
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
-import { createClientServer } from "@/lib/supabaseServer";
 import { verificarAdministrador } from "@/lib/auth";
-
 
 
 // =====================================
@@ -10,124 +8,128 @@ import { verificarAdministrador } from "@/lib/auth";
 // PÚBLICO
 // =====================================
 
-export async function POST(request: Request){
+export async function POST(request: Request) {
+  try {
+    const body = await request.json();
 
-try{
+    const nombre_donante =
+      body.nombre_donante?.trim();
 
+    const correo =
+      body.correo?.trim().toLowerCase();
 
-const body = await request.json();
+    const telefono =
+      body.telefono?.trim();
 
+    const tipo =
+      body.tipo?.trim();
 
-console.log(
-"INSERTANDO DONACIÓN:",
-body
-);
+    const descripcion =
+      body.descripcion?.trim();
 
+    const valor =
+      Number(body.valor) || 0;
 
+    // Validaciones básicas
+    if (!nombre_donante || !tipo) {
+      return NextResponse.json(
+        {
+          error:
+            "Nombre del donante y tipo de donación son obligatorios",
+        },
+        {
+          status: 400,
+        }
+      );
+    }
 
-const {data,error}=await supabaseAdmin
+    if (
+      correo &&
+      !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(correo)
+    ) {
+      return NextResponse.json(
+        {
+          error:
+            "El correo electrónico no es válido",
+        },
+        {
+          status: 400,
+        }
+      );
+    }
 
-.from("donaciones")
+    if (valor < 0) {
+      return NextResponse.json(
+        {
+          error:
+            "El valor de la donación no puede ser negativo",
+        },
+        {
+          status: 400,
+        }
+      );
+    }
 
-.insert({
+    const { data, error } = await supabaseAdmin
+      .from("donaciones")
+      .insert({
+        nombre_donante,
+        correo: correo || null,
+        telefono: telefono || null,
+        tipo,
+        valor,
+        descripcion: descripcion || null,
+        estado: "pendiente",
+      })
+      .select()
+      .single();
 
-nombre_donante: body.nombre_donante,
+    if (error) {
+      console.error(
+        "ERROR CREANDO DONACIÓN:",
+        error
+      );
 
-correo: body.correo,
+      return NextResponse.json(
+        {
+          error:
+            "No fue posible registrar la donación",
+        },
+        {
+          status: 500,
+        }
+      );
+    }
 
-telefono: body.telefono,
+    return NextResponse.json(
+      {
+        success: true,
+        message:
+          "Tu donación fue registrada correctamente. Gracias por apoyar a Fundación Corazón Valiente.",
+        data,
+      },
+      {
+        status: 201,
+      }
+    );
 
-tipo: body.tipo,
+  } catch (error) {
+    console.error(
+      "ERROR POST DONACIÓN:",
+      error
+    );
 
-valor: body.valor,
-
-descripcion: body.descripcion,
-
-estado:"pendiente"
-
-})
-
-.select();
-
-
-
-
-if(error){
-
-console.error(
-"ERROR DONACIÓN:",
-error
-);
-
-
-return NextResponse.json(
-
-{
-error:error.message
-},
-
-{
-status:500
+    return NextResponse.json(
+      {
+        error:
+          "Solicitud inválida",
+      },
+      {
+        status: 400,
+      }
+    );
+  }
 }
-
-);
-
-}
-
-
-
-
-return NextResponse.json(
-
-{
-
-success:true,
-
-message:
-"Tu donación fue registrada correctamente. Gracias por apoyar a Fundación Corazón Valiente.",
-
-data
-
-},
-
-{
-status:200
-}
-
-);
-
-
-
-}
-
-catch(error){
-
-
-console.error(error);
-
-
-return NextResponse.json(
-
-{
-error:"Error interno"
-},
-
-{
-status:500
-}
-
-);
-
-
-}
-
-
-
-}
-
-
-
-
 
 
 // =====================================
@@ -135,85 +137,51 @@ status:500
 // ADMIN
 // =====================================
 
-export async function GET(){
+export async function GET() {
+  const admin =
+    await verificarAdministrador();
 
+  if (!admin) {
+    return NextResponse.json(
+      {
+        error: "No autorizado",
+      },
+      {
+        status: 401,
+      }
+    );
+  }
 
-const autorizado =
-await verificarAdministrador();
+  const { data, error } =
+    await supabaseAdmin
+      .from("donaciones")
+      .select("*")
+      .order(
+        "created_at",
+        {
+          ascending: false,
+        }
+      );
 
+  if (error) {
+    console.error(
+      "ERROR CONSULTANDO DONACIONES:",
+      error
+    );
 
+    return NextResponse.json(
+      {
+        error:
+          "No fue posible consultar las donaciones",
+      },
+      {
+        status: 500,
+      }
+    );
+  }
 
-if(!autorizado){
-
-return NextResponse.json(
-
-{
-error:"No autorizado"
-},
-
-{
-status:401
+  return NextResponse.json(data);
 }
-
-);
-
-}
-
-
-
-
-const supabase =
-await createClientServer();
-
-
-
-const {data,error}=await supabase
-
-.from("donaciones")
-
-.select("*")
-
-.order(
-"created_at",
-{
-ascending:false
-}
-);
-
-
-
-
-if(error){
-
-return NextResponse.json(
-
-{
-error:error.message
-},
-
-{
-status:500
-}
-
-);
-
-}
-
-
-
-
-return NextResponse.json(
-
-data
-
-);
-
-
-}
-
-
-
-
 
 
 // =====================================
@@ -221,97 +189,128 @@ data
 // ADMIN
 // =====================================
 
-export async function PUT(request:Request){
+export async function PUT(
+  request: Request
+) {
+  const admin =
+    await verificarAdministrador();
 
+  if (!admin) {
+    return NextResponse.json(
+      {
+        error: "No autorizado",
+      },
+      {
+        status: 401,
+      }
+    );
+  }
 
+  try {
+    const body =
+      await request.json();
 
-const autorizado =
-await verificarAdministrador();
+    if (!body.id) {
+      return NextResponse.json(
+        {
+          error:
+            "ID de donación requerido",
+        },
+        {
+          status: 400,
+        }
+      );
+    }
 
+    const estadosPermitidos = [
+      "pendiente",
+      "confirmada",
+      "rechazada",
+    ];
 
+    if (
+      !body.estado ||
+      !estadosPermitidos.includes(
+        body.estado
+      )
+    ) {
+      return NextResponse.json(
+        {
+          error:
+            "Estado de donación no válido",
+        },
+        {
+          status: 400,
+        }
+      );
+    }
 
-if(!autorizado){
+    const { data, error } =
+      await supabaseAdmin
+        .from("donaciones")
+        .update({
+          estado: body.estado,
+        })
+        .eq(
+          "id",
+          body.id
+        )
+        .select();
 
-return NextResponse.json(
+    if (error) {
+      console.error(
+        "ERROR ACTUALIZANDO DONACIÓN:",
+        error
+      );
 
-{
-error:"No autorizado"
-},
+      return NextResponse.json(
+        {
+          error:
+            "No fue posible actualizar la donación",
+        },
+        {
+          status: 500,
+        }
+      );
+    }
 
-{
-status:401
+    if (
+      !data ||
+      data.length === 0
+    ) {
+      return NextResponse.json(
+        {
+          error:
+            "Donación no encontrada",
+        },
+        {
+          status: 404,
+        }
+      );
+    }
+
+    return NextResponse.json({
+      success: true,
+      data,
+    });
+
+  } catch (error) {
+    console.error(
+      "ERROR PUT DONACIÓN:",
+      error
+    );
+
+    return NextResponse.json(
+      {
+        error:
+          "Solicitud inválida",
+      },
+      {
+        status: 400,
+      }
+    );
+  }
 }
-
-);
-
-}
-
-
-
-const body =
-await request.json();
-
-
-
-const supabase =
-await createClientServer();
-
-
-
-
-const {data,error}=await supabase
-
-.from("donaciones")
-
-.update({
-
-estado:body.estado
-
-})
-
-.eq(
-"id",
-body.id
-)
-
-.select();
-
-
-
-
-
-if(error){
-
-return NextResponse.json(
-
-{
-error:error.message
-},
-
-{
-status:500
-}
-
-);
-
-}
-
-
-
-return NextResponse.json({
-
-success:true,
-
-data
-
-});
-
-
-}
-
-
-
-
 
 
 // =====================================
@@ -319,81 +318,99 @@ data
 // ADMIN
 // =====================================
 
-export async function DELETE(request:Request){
+export async function DELETE(
+  request: Request
+) {
+  const admin =
+    await verificarAdministrador();
 
+  if (!admin) {
+    return NextResponse.json(
+      {
+        error: "No autorizado",
+      },
+      {
+        status: 401,
+      }
+    );
+  }
 
+  try {
+    const body =
+      await request.json();
 
-const autorizado =
-await verificarAdministrador();
+    if (!body.id) {
+      return NextResponse.json(
+        {
+          error:
+            "ID de donación requerido",
+        },
+        {
+          status: 400,
+        }
+      );
+    }
 
+    const { data, error } =
+      await supabaseAdmin
+        .from("donaciones")
+        .delete()
+        .eq(
+          "id",
+          body.id
+        )
+        .select("id");
 
+    if (error) {
+      console.error(
+        "ERROR ELIMINANDO DONACIÓN:",
+        error
+      );
 
-if(!autorizado){
+      return NextResponse.json(
+        {
+          error:
+            "No fue posible eliminar la donación",
+        },
+        {
+          status: 500,
+        }
+      );
+    }
 
-return NextResponse.json(
+    if (
+      !data ||
+      data.length === 0
+    ) {
+      return NextResponse.json(
+        {
+          error:
+            "Donación no encontrada",
+        },
+        {
+          status: 404,
+        }
+      );
+    }
 
-{
-error:"No autorizado"
-},
+    return NextResponse.json({
+      success: true,
+    });
 
-{
-status:401
-}
+  } catch (error) {
+    console.error(
+      "ERROR DELETE DONACIÓN:",
+      error
+    );
 
-);
-
-}
-
-
-
-const {id}=await request.json();
-
-
-
-const supabase =
-await createClientServer();
-
-
-
-
-const {error}=await supabase
-
-.from("donaciones")
-
-.delete()
-
-.eq(
-"id",
-id
-);
-
-
-
-
-if(error){
-
-return NextResponse.json(
-
-{
-error:error.message
-},
-
-{
-status:500
-}
-
-);
-
-}
-
-
-
-
-return NextResponse.json({
-
-success:true
-
-});
-
-
+    return NextResponse.json(
+      {
+        error:
+          "Solicitud inválida",
+      },
+      {
+        status: 400,
+      }
+    );
+  }
 }
