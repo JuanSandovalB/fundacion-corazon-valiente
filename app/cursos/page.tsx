@@ -5,7 +5,7 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Cursos | Fundación Corazón Valiente",
   description:
-    "Próximamente encontrarás cursos, talleres y espacios de formación de la Fundación Corazón Valiente Colombia.",
+    "Próximamente encontrarás cursos y espacios de formación de la Fundación Corazón Valiente Colombia.",
 };
 
 export default function CursosPage() {

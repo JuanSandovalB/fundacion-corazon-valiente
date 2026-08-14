@@ -327,6 +327,167 @@ export default async function Home() {
 
         </div>
       </section>
+      {
+      /* =========================================
+    AMELIA Y VALENTÍN
+========================================= */}
+      {/* =========================================
+    AMELIA Y VALENTÍN
+========================================= */}
+
+<section className="characters-section">
+
+  <div className="container">
+
+    
+
+
+    <div className="characters-grid">
+
+      {/* =====================================
+          AMELIA
+      ====================================== */}
+
+      <article className="character-card">
+
+        <div className="character-image-wrapper amelia-background">
+
+          <Image
+            src="/images/amelia.png"
+            alt="Amelia, la luciérnaga de la esperanza"
+            width={300}
+            height={340}
+            className="character-card-image"
+          />
+
+        </div>
+
+
+        <div className="character-card-content">
+
+         
+
+          <h3>
+            Amelia
+          </h3>
+
+          <p>
+            Amelia es una pequeña luciérnaga que lleva esperanza,
+            amor y luz a todos los corazones. Escucha, acompaña
+            e inspira a nunca rendirse.
+          </p>
+
+          <p>
+            Ella llega en los momentos difíciles para recordarnos
+            que siempre hay una luz dentro de cada uno de nosotros.
+          </p>
+
+
+          <div className="character-mission">
+
+            <strong>
+              Su misión
+            </strong>
+
+            <p>
+              Ayudar a niños, jóvenes y familias a encontrar la luz
+              que existe dentro de ellos cuando sienten tristeza,
+              miedo, soledad o desánimo.
+            </p>
+
+          </div>
+
+
+          <div className="character-values">
+
+            <span>💛 Esperanza</span>
+            <span>💗 Amor propio</span>
+            <span>🤝 Empatía</span>
+            <span>🌱 Resiliencia</span>
+            <span>💙 Acompañamiento</span>
+
+          </div>
+
+        </div>
+
+      </article>
+
+
+      {/* =====================================
+          VALENTÍN
+      ====================================== */}
+
+      <article className="character-card">
+
+        <div className="character-image-wrapper valentin-background">
+
+          <Image
+            src="/images/valentin.png"
+            alt="Valentín, el león del corazón"
+            width={300}
+            height={340}
+            className="character-card-image"
+          />
+
+        </div>
+
+
+        <div className="character-card-content">
+
+          
+
+          <h3>
+            Valentín
+          </h3>
+
+          <p>
+            Valentín está para acompañarnos a descubrir,
+            comprender y expresar nuestras emociones.
+          </p>
+
+          <p>
+            Nos enseña que ser valiente también significa
+            hablar de lo que sentimos, reconocer nuestras emociones
+            y aprender a cuidar nuestro corazón y el de los demás.
+          </p>
+
+
+          <div className="character-mission">
+
+            <strong>
+              Su misión
+            </strong>
+
+            <p>
+              Ayudarnos a construir un mundo más amable,
+              lleno de amor, respeto y valentía.
+            </p>
+
+          </div>
+
+
+          <div className="character-values">
+
+            <span>❤️ Reconocer emociones</span>
+            <span>🌬️ Respirar y calmarnos</span>
+            <span>💬 Hablar con respeto</span>
+            <span>🤝 Ser empáticos</span>
+
+          </div>
+
+        </div>
+
+      </article>
+
+    </div>
+
+
+    
+    
+
+  </div>
+
+</section>
 
       <section id="programas" className="section purpose-section">
 
@@ -475,20 +636,7 @@ export default async function Home() {
             </div>
 
 
-            <div className="course-home-card">
-              <div className="course-home-icon">
-                🤝
-              </div>
 
-              <h3>
-                Talleres
-              </h3>
-
-              <p>
-                Encuentros prácticos para aprender, compartir experiencias
-                y construir herramientas para la vida.
-              </p>
-            </div>
 
 
             <div className="course-home-card">
