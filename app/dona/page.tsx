@@ -80,7 +80,7 @@ Tu aporte genera oportunidades
 
 
 <p>
-Actualmente recibimos donaciones económicas y en especie.
+Actualmente recibimos donaciones económicas y apoyos.
 Nuestro equipo se comunicará contigo para acompañar el proceso.
 </p>
 

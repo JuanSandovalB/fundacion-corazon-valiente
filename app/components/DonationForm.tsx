@@ -142,11 +142,7 @@ Donación económica
 </option>
 
 
-<option value="Especie">
 
-Donación en especie
-
-</option>
 
 
 <option value="Otro">

@@ -3,40 +3,16 @@ export const revalidate = 0;
 import Link from "next/link";
 import Image from "next/image";
 import Navbar from "./components/Navbar";
+import {
+  FaInstagram,
+  FaFacebookF,
+  FaTiktok,
+} from "react-icons/fa";
 
 
 import { supabaseAdmin } from "../lib/supabaseAdmin";
 import VolunteerForm from "./components/VolunteerForm";
-const programas = [
-  {
-    icono: "🛡️",
-    titulo: "Protección de la niñez",
-    texto:
-      "Promovemos entornos protectores, prevención del abuso y formación en valores.",
-    clase: "program-card program-red",
-  },
-  {
-    icono: "💛",
-    titulo: "Salud mental y esperanza",
-    texto:
-      "Brindamos acompañamiento emocional, orientación y herramientas para fortalecer el bienestar.",
-    clase: "program-card program-yellow",
-  },
-  {
-    icono: "🤝",
-    titulo: "Comunidad y solidaridad",
-    texto:
-      "Desarrollamos jornadas sociales, ayudas y actividades para las comunidades.",
-    clase: "program-card program-blue",
-  },
-  {
-    icono: "🎓",
-    titulo: "Educación y formación",
-    texto:
-      "Realizamos talleres, capacitaciones y procesos educativos para construir oportunidades.",
-    clase: "program-card program-purple",
-  },
-];
+
 
 const acciones = [
   {
@@ -86,7 +62,7 @@ export default async function Home() {
   }
 
 
- 
+
 
   return (
     <main>
@@ -106,12 +82,15 @@ export default async function Home() {
           <nav className="desktop-menu" aria-label="Menú principal">
             <a href="#inicio">Inicio</a>
             <a href="#nosotros">Nosotros</a>
-            <a href="#programas">Programas</a>
+
             <a href="#eventos">Eventos</a>
 
             <a href="#donar">Dona</a>
             <a href="#voluntariado">Voluntariado</a>
             <a href="#contacto">Contacto</a>
+            <Link href="/cursos">
+              Cursos
+            </Link>
           </nav>
 
           <Link
@@ -132,7 +111,7 @@ export default async function Home() {
       </header>
 
       <section id="inicio" className="hero">
-        
+
 
         <div className="container hero-grid">
           <div className="hero-content">
@@ -162,13 +141,14 @@ export default async function Home() {
 
           <div className="hero-visual">
             <div className="hero-photo">
-              <div className="photo-placeholder">
-                <span>❤️</span>
-                <strong>Una familia llena de esperanza</strong>
-                <small>
-                  Aquí colocaremos la fotografía principal de la fundación
-                </small>
-              </div>
+              <Image
+                src="/images/imagenP.jpg"
+                alt="Fundación Corazón Valiente Colombia"
+                fill
+                priority
+                sizes="(max-width: 900px) 100vw, 50vw"
+                className="hero-main-photo"
+              />
             </div>
 
             <div className="hero-character character-left">
@@ -231,13 +211,16 @@ export default async function Home() {
       <section id="nosotros" className="section about-section">
         <div className="container about-grid">
           <div className="about-logo-card">
+
             <Image
-              src="/images/logo.png"
-              alt="Fundación Corazón Valiente"
-              width={280}
-              height={200}
+              src="/images/reunion.jpg"
+              alt="Logo de la Fundación Corazón Valiente Colombia"
+              width={420}
+              height={420}
               className="about-logo-image"
             />
+
+
           </div>
 
           <div className="about-content">
@@ -245,9 +228,8 @@ export default async function Home() {
             <h2>¿Quiénes somos?</h2>
 
             <p>
-              En Fundación Corazón Valiente creemos que una sola persona puede
-              cambiar la vida de otra. Trabajamos para brindar apoyo emocional,
-              social, educativo y comunitario a quienes más lo necesitan.
+              En Fundación Corazón Valiente Colombia creemos en el poder de acompañar, escuchar y tender una mano cuando más se necesita. Trabajamos junto a niños, jóvenes, mujeres, familias y comunidades, creando espacios seguros y desarrollando acciones que promueven el bienestar, la prevención de la violencia, el empoderamiento y nuevas oportunidades.
+
             </p>
 
             <p>
@@ -261,109 +243,137 @@ export default async function Home() {
           </div>
 
           <div className="about-video">
-            <div className="video-placeholder">
-              <button aria-label="Reproducir video">▶</button>
-              <span>Conoce nuestra labor</span>
-            </div>
+
+            <video
+              className="about-video-player"
+              controls
+              preload="metadata"
+              playsInline
+            >
+              <source
+                src="/videos/fundacion-corazon-valiente.mp4"
+                type="video/mp4"
+              />
+
+              Tu navegador no puede reproducir este video.
+            </video>
+
           </div>
         </div>
       </section>
 
-      <section id="programas" className="section programs-section">
+      <section id="programas" className="section purpose-section">
+
         <div className="container">
+
           <div className="section-heading">
-            <span className="section-kicker">Nuestro propósito</span>
-            <h2>¿Qué hacemos?</h2>
+
+            <span className="section-kicker">
+              Nuestro propósito
+            </span>
+
+            <h2>
+              Lo que nos mueve
+            </h2>
+
             <p>
-              Desarrollamos iniciativas que fortalecen a las personas y sus
-              comunidades.
+              Acompañamos con empatía, compromiso y esperanza a quienes
+              atraviesan momentos difíciles.
             </p>
+
           </div>
 
-          <div className="program-grid">
-            {programas.map((programa) => (
-              <article className={programa.clase} key={programa.titulo}>
-                <span className="program-icon">{programa.icono}</span>
-                <h3>{programa.titulo}</h3>
-                <p>{programa.texto}</p>
-                <a href="#contacto">Saber más</a>
-              </article>
-            ))}
-          </div>
-        </div>
-      </section>
 
-      <section className="section characters-section">
-        <div className="container">
-          <div className="section-heading">
-            <span className="section-kicker">Nuestra identidad</span>
-            <h2>Conoce nuestros personajes</h2>
-          </div>
+          <div className="purpose-grid">
 
-          <div className="characters-grid">
-            <article className="character-card">
-              <div className="character-illustration">
-                <Image
-                  src="/images/valentin.png"
-                  alt="Valentín, el león más valiente"
-                  width={210}
-                  height={250}
-                  className="character-real-image"
-                />
+            {/* MISIÓN */}
+
+            <article className="purpose-card mission-card">
+
+              <div className="purpose-icon">
+                ❤️
               </div>
 
-              <div>
-                <span className="character-name">Valentín</span>
-                <h3>El león más valiente</h3>
-                <p>
-                  Representa el valor, la fuerza y la protección de cada niño y
-                  niña.
-                </p>
-              </div>
+              <span className="purpose-label">
+                Nuestra razón de ser
+              </span>
+
+              <h3>
+                Misión
+              </h3>
+
+              <p>
+                En la Fundación Corazón Valiente Colombia trabajamos para que
+                ninguna persona tenga que enfrentar sola un momento difícil.
+                Acompañamos especialmente a mujeres, niños, jóvenes y familias
+                que atraviesan situaciones de vulnerabilidad, violencia o dolor,
+                brindándoles orientación, apoyo y espacios seguros donde puedan
+                sentirse escuchados, protegidos y valorados.
+              </p>
+
+              <p>
+                A través de nuestros programas sociales, educativos y de
+                sensibilización, buscamos ayudar a las personas a reconocer
+                situaciones que vulneran su dignidad, encontrar su propia voz y
+                saber que siempre es posible pedir ayuda y encontrar nuevos
+                caminos.
+              </p>
+
+              <p className="purpose-highlight">
+                Creemos en una sociedad más humana, solidaria y consciente,
+                donde acompañar también significa transformar vidas.
+              </p>
+
             </article>
 
-            <div className="characters-heart">♡</div>
 
-            <article className="character-card character-reverse">
-              <div className="character-illustration">
-                <Image
-                  src="/images/amelia.png"
-                  alt="Amelia, personaje de la esperanza"
-                  width={210}
-                  height={250}
-                  className="character-real-image"
-                />
+            {/* VISIÓN */}
+
+            <article className="purpose-card vision-card">
+
+              <div className="purpose-icon">
+                ✨
               </div>
 
-              <div>
-                <span className="character-name">Amelia</span>
-                <h3>La luciérnaga de la esperanza</h3>
-                <p>
-                  Representa la alegría, la empatía y la esperanza de construir
-                  un mañana mejor.
-                </p>
-              </div>
+              <span className="purpose-label">
+                Hacia dónde vamos
+              </span>
+
+              <h3>
+                Visión
+              </h3>
+
+              <p>
+                Para el año 2030, queremos que la Fundación Corazón Valiente
+                Colombia sea reconocida en todo el país como una organización
+                cercana a las personas y presente cuando más lo necesitan.
+              </p>
+
+              <p>
+                Soñamos con una Colombia donde ninguna forma de violencia sea
+                vista como normal, donde pedir ayuda sea un acto de valentía y
+                donde niños, jóvenes, mujeres y familias encuentren espacios
+                seguros para ser escuchados, acompañados y orientados.
+              </p>
+
+              <p className="purpose-highlight">
+                Queremos seguir llegando a más territorios, comunidades y
+                hogares, creando conciencia, fortaleciendo capacidades y
+                construyendo oportunidades para que cada persona pueda vivir
+                con dignidad, esperanza y sin miedo.
+              </p>
+
             </article>
+
           </div>
+
         </div>
+
       </section>
 
-      <section id="eventos" className="section actions-section">
-        <div className="container action-grid">
-          {acciones.map((accion) => (
-            <article className={`action-card ${accion.clase}`} key={accion.titulo}>
-              <span className="action-icon">{accion.icono}</span>
-              <h3>{accion.titulo}</h3>
-              <p>{accion.texto}</p>
 
-              <Link href={accion.enlace}>
-                {accion.boton}
-              </Link>
-            </article>
-          ))}
-        </div>
-      </section>
-      <section className="section eventos-reales">
+
+      <section id="eventos" className="section eventos-reales">
 
         <div className="container">
 
@@ -610,6 +620,87 @@ export default async function Home() {
           <VolunteerForm />
         </div>
       </section>
+      <section className="social-section">
+        <div className="container">
+
+          <div className="social-heading">
+            <span className="social-kicker">
+              SÍGUENOS Y HAZ PARTE
+            </span>
+
+            <h2>
+              Conecta con Corazón Valiente
+            </h2>
+
+            <p>
+              Conoce nuestras jornadas, historias, actividades y todo
+              lo que estamos construyendo junto a nuestras comunidades.
+            </p>
+          </div>
+
+          <div className="social-grid">
+
+            <a
+              href="https://www.instagram.com/fundacioncorazonvaliente?igsh=a2VzemdnN2FvNjQy"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="social-card"
+            >
+              <div className="social-icon instagram-icon">
+                <FaInstagram />
+              </div>
+
+              <div>
+                <span>Síguenos en</span>
+                <strong>Instagram</strong>
+              </div>
+
+              <span className="social-arrow">→</span>
+            </a>
+
+
+            <a
+              href="https://www.facebook.com/share/1HaByPTSH7/?mibextid=wwXIfr"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="social-card"
+            >
+              <div className="social-icon facebook-icon">
+                <FaFacebookF />
+              </div>
+
+              <div>
+                <span>Encuéntranos en</span>
+                <strong>Facebook</strong>
+              </div>
+
+              <span className="social-arrow">→</span>
+            </a>
+
+
+            <a
+              href="https://www.tiktok.com/@fundacin.corazn.v?_r=1&_t=ZS-98RcLqbpZOj"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="social-card"
+            >
+              <div className="social-icon tiktok-icon">
+                <FaTiktok />
+              </div>
+
+              <div>
+                <span>Síguenos en</span>
+                <strong>TikTok</strong>
+              </div>
+
+              <span className="social-arrow">→</span>
+            </a>
+
+          </div>
+
+        </div>
+      </section>
+
 
       <footer id="contacto" className="site-footer">
         <div className="container footer-grid">
@@ -636,14 +727,14 @@ export default async function Home() {
               <a href="https://www.instagram.com/fundacioncorazonvaliente?igsh=a2VzemdnN2FvNjQy" aria-label="Instagram">
                 IG
               </a>
-              <a href="https://www.facebook.com/profile.php?id=61592853252677" aria-label="Facebook">
+              <a href="https://www.facebook.com/share/1HaByPTSH7/?mibextid=wwXIfr" aria-label="Facebook">
                 FB
               </a>
               <a href="https://www.tiktok.com/@fundacin.corazn.v?_r=1&_t=ZS-98RcLqbpZOj" aria-label="tiktok">
 
                 TK
               </a>
-             
+
             </div>
 
             <p>@fundacioncorazonvaliente</p>

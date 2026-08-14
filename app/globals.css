@@ -77,7 +77,7 @@ img {
 
 .navbar-logo {
   display: block;
-  width: 185px;
+  width: 135px;
   height: auto;
   object-fit: contain;
 }
@@ -680,7 +680,7 @@ display:none;
 .volunteer-section h2 {
   margin: 0;
   color: var(--navy);
-  font-size: clamp(34px, 4vw, 48px);
+  font-size: clamp(34px, 4vw, 38px);
   letter-spacing: -1px;
 }
 
@@ -708,23 +708,38 @@ display:none;
   gap: 50px;
 }
 
+/* =========================================
+   FOTO - QUIÉNES SOMOS
+========================================= */
+
 .about-logo-card {
-  display: flex;
-  min-height: 280px;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 25px;
-  border-radius: 35px;
-  background: linear-gradient(145deg, #fff5f2, #fff);
+  position: relative;
+
+  width: 100%;
+  max-width: 320px;
+  height: 300px;
+
+  padding: 0;
+
+  border-radius: 26px;
+  overflow: hidden;
+
+  background: #fff4f5;
+
+  box-shadow:
+    0 16px 40px rgba(20, 25, 45, 0.10);
 }
 
 .about-logo-image {
-  display: block;
   width: 100%;
-  max-width: 280px;
-  height: auto;
-  object-fit: contain;
+  height: 100%;
+
+  display: block;
+
+  object-fit: cover;
+  object-position: center;
+
+  border-radius: 26px;
 }
 
 .about-content .button {
@@ -3884,4 +3899,532 @@ margin-bottom:10px;
 
 color:var(--muted);
 
+}
+/* =========================================
+   MISIÓN Y VISIÓN
+========================================= */
+
+.purpose-section {
+  background: #fffdfb;
+}
+
+.purpose-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 32px;
+  margin-top: 45px;
+}
+
+.purpose-card {
+  position: relative;
+  padding: 42px;
+  border-radius: 28px;
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.purpose-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 18px 45px rgba(0, 0, 0, 0.08);
+}
+
+.mission-card {
+  background: linear-gradient(
+    145deg,
+    #fff0f2,
+    #fff8f8
+  );
+  border: 1px solid rgba(239, 35, 65, 0.1);
+}
+
+.vision-card {
+  background: linear-gradient(
+    145deg,
+    #eef7ff,
+    #f7fbff
+  );
+  border: 1px solid rgba(40, 120, 180, 0.1);
+}
+
+.purpose-icon {
+  width: 58px;
+  height: 58px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: white;
+  border-radius: 18px;
+  font-size: 27px;
+  margin-bottom: 24px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+}
+
+.purpose-label {
+  display: block;
+  margin-bottom: 8px;
+  color: #ef2341;
+  font-size: 12px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+}
+
+.purpose-card h3 {
+  margin: 0 0 22px;
+  color: #10152f;
+  font-size: 30px;
+  font-weight: 700;
+}
+
+.purpose-card p {
+  margin-bottom: 18px;
+  color: #4f5363;
+  font-size: 15px;
+  line-height: 1.8;
+}
+
+.purpose-highlight {
+  margin-bottom: 0 !important;
+  padding: 18px 20px;
+  background: rgba(255, 255, 255, 0.7);
+  border-left: 4px solid #ef2341;
+  border-radius: 10px;
+  color: #252a3b !important;
+  font-weight: 600;
+}
+
+
+/* RESPONSIVE */
+
+@media (max-width: 850px) {
+
+  .purpose-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .purpose-card {
+    padding: 30px 25px;
+  }
+
+  .purpose-card h3 {
+    font-size: 26px;
+  }
+
+}
+/* ==============================
+   VIDEO QUIÉNES SOMOS
+============================== */
+
+.about-video {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.about-video-player {
+  width: 100%;
+  max-width: 560px;
+  aspect-ratio: 16 / 9;
+
+  display: block;
+
+  object-fit: cover;
+
+  border-radius: 24px;
+
+  box-shadow:
+    0 18px 45px rgba(0, 0, 0, 0.12);
+
+  background: #000;
+}
+/* ========================================
+   FOTO PRINCIPAL - HERO
+======================================== */
+
+.hero-photo {
+  position: relative;
+  width: 100%;
+  min-height: 480px;
+  overflow: hidden;
+  border-radius: 28px;
+  transform: translateY(50px);
+}
+
+.hero-main-photo {
+  object-fit: cover;
+  object-position: center;
+}
+/* ==================================================
+   PAGINA CURSOS - PROXIMAMENTE
+================================================== */
+
+.cursos-page {
+  width: 100%;
+  min-height: calc(100vh - 100px);
+  padding: 80px 24px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background:
+    radial-gradient(
+      circle at 15% 20%,
+      rgba(239, 23, 65, 0.08),
+      transparent 28%
+    ),
+    linear-gradient(
+      135deg,
+      #fffaf8 0%,
+      #ffffff 55%,
+      #fff4f5 100%
+    );
+}
+
+.cursos-proximamente {
+  width: 100%;
+  max-width: 760px;
+  margin: 0 auto;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  text-align: center;
+}
+
+
+/* ICONO */
+
+.cursos-icon {
+  width: 82px;
+  height: 82px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  margin: 0 auto 24px;
+
+  background: #ffffff;
+
+  border: 1px solid rgba(239, 23, 65, 0.10);
+  border-radius: 24px;
+
+  font-size: 38px;
+
+  box-shadow:
+    0 15px 40px rgba(20, 25, 45, 0.09);
+}
+
+
+/* TEXTO PEQUEÑO SUPERIOR */
+
+.cursos-kicker {
+  display: block;
+
+  margin-bottom: 14px;
+
+  color: #ef1741;
+
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 3px;
+
+  text-transform: uppercase;
+}
+
+
+/* TITULO */
+
+.cursos-proximamente h1 {
+  margin: 0 0 18px;
+
+  color: #10152f;
+
+  font-size: 52px;
+  font-weight: 700;
+  line-height: 1.1;
+}
+
+
+/* DESCRIPCION */
+
+.cursos-description {
+  max-width: 620px;
+
+  margin: 0 auto 35px;
+
+  color: #626675;
+
+  font-size: 17px;
+  line-height: 1.7;
+}
+
+
+/* TARJETA */
+
+.cursos-message {
+  width: 100%;
+  max-width: 650px;
+
+  margin: 0 auto 32px;
+  padding: 30px 38px;
+
+  background: rgba(255, 255, 255, 0.95);
+
+  border: 1px solid rgba(239, 23, 65, 0.12);
+  border-radius: 24px;
+
+  box-shadow:
+    0 18px 50px rgba(20, 25, 45, 0.08);
+}
+
+.cursos-message strong {
+  display: block;
+
+  margin-bottom: 10px;
+
+  color: #ef1741;
+
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.cursos-message p {
+  margin: 0;
+
+  color: #555968;
+
+  font-size: 15px;
+  line-height: 1.7;
+}
+
+
+/* VOLVER */
+
+.cursos-back {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 12px 25px;
+
+  color: #ef1741;
+
+  background: #ffffff;
+
+  border: 1.5px solid #ef1741;
+  border-radius: 30px;
+
+  font-size: 14px;
+  font-weight: 700;
+
+  text-decoration: none;
+
+  transition: all 0.25s ease;
+}
+
+.cursos-back:hover {
+  color: #ffffff;
+  background: #ef1741;
+
+  transform: translateY(-2px);
+}
+
+
+/* MOVIL */
+
+@media (max-width: 600px) {
+
+  .cursos-page {
+    padding: 60px 20px;
+  }
+
+  .cursos-proximamente h1 {
+    font-size: 38px;
+  }
+
+  .cursos-description {
+    font-size: 15px;
+  }
+
+  .cursos-message {
+    padding: 25px 20px;
+  }
+
+}
+
+/* =========================================
+   REDES SOCIALES
+========================================= */
+
+.social-section {
+  padding: 90px 20px;
+  background: #fff7f7;
+}
+
+.social-heading {
+  max-width: 700px;
+  margin: 0 auto 45px;
+  text-align: center;
+}
+
+.social-kicker {
+  display: block;
+  margin-bottom: 12px;
+
+  color: #ed1739;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 3px;
+}
+
+.social-heading h2 {
+  margin: 0 0 15px;
+
+  color: #10152f;
+  font-size: 42px;
+  line-height: 1.15;
+}
+
+.social-heading p {
+  max-width: 620px;
+  margin: 0 auto;
+
+  color: #646775;
+  font-size: 16px;
+  line-height: 1.7;
+}
+
+
+/* TARJETAS */
+
+.social-grid {
+  max-width: 1000px;
+  margin: 0 auto;
+
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.social-card {
+  min-height: 105px;
+  padding: 22px;
+
+  display: flex;
+  align-items: center;
+  gap: 16px;
+
+  background: #ffffff;
+
+  border: 1px solid rgba(237, 23, 57, 0.1);
+  border-radius: 22px;
+
+  text-decoration: none;
+
+  box-shadow:
+    0 12px 35px rgba(20, 25, 45, 0.06);
+
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease,
+    border-color 0.25s ease;
+}
+
+.social-card:hover {
+  transform: translateY(-5px);
+
+  border-color: rgba(237, 23, 57, 0.35);
+
+  box-shadow:
+    0 18px 45px rgba(20, 25, 45, 0.11);
+}
+
+.social-icon {
+  width: 52px;
+  height: 52px;
+  flex-shrink: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: #fff3f4;
+  border-radius: 16px;
+
+  font-size: 25px;
+}
+
+.social-card div:nth-child(2) {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.social-card span {
+  color: #858895;
+  font-size: 11px;
+}
+
+.social-card strong {
+  margin-top: 3px;
+
+  color: #10152f;
+  font-size: 17px;
+}
+
+.social-arrow {
+  color: #ed1739 !important;
+  font-size: 22px !important;
+  font-weight: 700;
+}
+
+
+/* MÓVIL */
+
+@media (max-width: 800px) {
+
+  .social-grid {
+    grid-template-columns: 1fr;
+    max-width: 500px;
+  }
+
+  .social-heading h2 {
+    font-size: 34px;
+  }
+
+  .social-section {
+    padding: 70px 20px;
+  }
+}
+/* ICONOS REALES DE REDES SOCIALES */
+
+.social-icon svg {
+  width: 27px;
+  height: 27px;
+}
+
+/* Instagram */
+
+.instagram-icon {
+  color: #e1306c;
+  background: #fff0f5;
+}
+
+/* Facebook */
+
+.facebook-icon {
+  color: #1877f2;
+  background: #eef5ff;
+}
+
+/* TikTok */
+
+.tiktok-icon {
+  color: #111111;
+  background: #f3f3f3;
 }
