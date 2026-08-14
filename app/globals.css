@@ -4839,3 +4839,143 @@ td {
   box-shadow:
     0 0 0 3px rgba(223, 23, 52, 0.1);
 }
+/* =========================================
+   CURSOS - HOME
+========================================= */
+
+.courses-home-section {
+  padding: 90px 20px;
+  background: #fff8f7;
+}
+
+.courses-home-header {
+  max-width: 760px;
+  margin: 0 auto 50px;
+  text-align: center;
+}
+
+.courses-home-header .eyebrow {
+  display: block;
+  margin-bottom: 14px;
+  color: #ed1638;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 3px;
+}
+
+.courses-home-header h2 {
+  margin: 0 0 18px;
+  color: #0b1433;
+  font-size: clamp(36px, 4vw, 52px);
+  font-weight: 500;
+  line-height: 1.1;
+}
+
+.courses-home-header p {
+  margin: 0 auto;
+  color: #596078;
+  font-size: 17px;
+  line-height: 1.8;
+}
+
+.courses-home-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  max-width: 1050px;
+  margin: 0 auto;
+}
+
+.course-home-card {
+  padding: 35px 30px;
+  background: #ffffff;
+  border: 1px solid #f5dfe3;
+  border-radius: 24px;
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.course-home-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 18px 40px rgba(20, 20, 40, 0.08);
+}
+
+.course-home-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 58px;
+  height: 58px;
+  margin-bottom: 24px;
+
+  background: #fff1f3;
+  border-radius: 18px;
+
+  font-size: 27px;
+}
+
+.course-home-card h3 {
+  margin: 0 0 12px;
+  color: #0b1433;
+  font-size: 21px;
+  font-weight: 700;
+}
+
+.course-home-card p {
+  margin: 0;
+  color: #646b7e;
+  font-size: 15px;
+  line-height: 1.7;
+}
+
+.courses-home-action {
+  display: flex;
+  justify-content: center;
+  margin-top: 42px;
+}
+
+
+/* =========================================
+   CURSOS - RESPONSIVE
+========================================= */
+
+@media (max-width: 768px) {
+
+  .courses-home-section {
+    padding: 65px 20px;
+  }
+
+  .courses-home-header {
+    margin-bottom: 35px;
+  }
+
+  .courses-home-header h2 {
+    font-size: 34px;
+  }
+
+  .courses-home-header p {
+    font-size: 15px;
+    line-height: 1.7;
+  }
+
+  .courses-home-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .course-home-card {
+    padding: 25px;
+  }
+
+  .courses-home-action {
+    margin-top: 30px;
+  }
+
+  .courses-home-action .button {
+    width: 100%;
+    max-width: 320px;
+    text-align: center;
+  }
+}

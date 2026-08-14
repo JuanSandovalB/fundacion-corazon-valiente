@@ -113,167 +113,167 @@ export default async function Home() {
 
       <section id="inicio" className="hero">
 
-  <div className="container hero-grid">
+        <div className="container hero-grid">
 
-    {/* =========================
+          {/* =========================
         CONTENIDO PRINCIPAL
     ========================== */}
 
-    <div className="hero-content">
+          <div className="hero-content">
 
-      <span className="eyebrow">
-        Fundación Corazón Valiente
-      </span>
+            <span className="eyebrow">
+              Fundación Corazón Valiente
+            </span>
 
-      <h1>
-        Un corazón valiente es el que cree que su{" "}
-        <span>
-          historia puede cambiar.
-        </span>
-      </h1>
+            <h1>
+              Un corazón valiente es el que cree que su{" "}
+              <span>
+                historia puede cambiar.
+              </span>
+            </h1>
 
-      <p>
-        Transformamos el dolor en fuerza y la fuerza en oportunidades. ✨
-        Impulsamos a mujeres, niños, adultos mayores, familias y comunidades
-        para que encuentren nuevas posibilidades.
-      </p>
+            <p>
+              Transformamos el dolor en fuerza y la fuerza en oportunidades. ✨
+              Impulsamos a mujeres, niños, adultos mayores, familias y comunidades
+              para que encuentren nuevas posibilidades.
+            </p>
 
 
-      {/* =========================
+            {/* =========================
           BOTONES
       ========================== */}
 
-      <div className="hero-buttons">
+            <div className="hero-buttons">
 
-        <a
-          href="#donar"
-          className="button button-primary hero-help-button"
-        >
-          ❤️ Quiero ayudar
-        </a>
+              <a
+                href="#donar"
+                className="button button-primary hero-help-button"
+              >
+                ❤️ Quiero ayudar
+              </a>
 
-        <div className="hero-secondary-actions">
+              <div className="hero-secondary-actions">
 
-          <a
-            href="#nosotros"
-            className="hero-small-button"
-          >
-            Conoce más
-          </a>
+                <a
+                  href="#nosotros"
+                  className="hero-small-button"
+                >
+                  Conoce más
+                </a>
 
-          <a
-            href="#voluntariado"
-            className="hero-small-button hero-volunteer-small"
-          >
-            🤝 Ser voluntario
-          </a>
+                <a
+                  href="#voluntariado"
+                  className="hero-small-button hero-volunteer-small"
+                >
+                  🤝 Ser voluntario
+                </a>
 
-        </div>
+              </div>
 
-      </div>
+            </div>
 
-    </div>
+          </div>
 
 
-    {/* =========================
+          {/* =========================
         CARRUSEL + PERSONAJES
     ========================== */}
 
-    <div className="hero-visual">
+          <div className="hero-visual">
 
-      <div className="hero-photo">
-        <HeroCarousel />
-      </div>
+            <div className="hero-photo">
+              <HeroCarousel />
+            </div>
 
-      <div className="hero-character character-left">
-        <Image
-          src="/images/amelia.png"
-          alt="Amelia, personaje de la Fundación Corazón Valiente"
-          width={160}
-          height={190}
-          className="hero-character-image"
-        />
-      </div>
+            <div className="hero-character character-left">
+              <Image
+                src="/images/amelia.png"
+                alt="Amelia, personaje de la Fundación Corazón Valiente"
+                width={160}
+                height={190}
+                className="hero-character-image"
+              />
+            </div>
 
-      <div className="hero-character character-right">
-        <Image
-          src="/images/valentin.png"
-          alt="Valentín, personaje de la Fundación Corazón Valiente"
-          width={160}
-          height={190}
-          className="hero-character-image"
-        />
-      </div>
+            <div className="hero-character character-right">
+              <Image
+                src="/images/valentin.png"
+                alt="Valentín, personaje de la Fundación Corazón Valiente"
+                width={160}
+                height={190}
+                className="hero-character-image"
+              />
+            </div>
 
-    </div>
+          </div>
 
-  </div>
+        </div>
 
 
-  {/* =========================
+        {/* =========================
       BARRA DE IMPACTO
   ========================== */}
 
-  <div className="container impact-bar">
+        <div className="container impact-bar">
 
-    <div>
-      <span>👨‍👩‍👧</span>
+          <div>
+            <span>👨‍👩‍👧</span>
 
-      <p>
-        <strong>
-          Niños y niñas
-        </strong>
+            <p>
+              <strong>
+                Niños y niñas
+              </strong>
 
-        protegidos
-      </p>
-    </div>
-
-
-    <div>
-      <span>♡</span>
-
-      <p>
-        <strong>
-          Familias
-        </strong>
-
-        acompañadas
-      </p>
-    </div>
+              protegidos
+            </p>
+          </div>
 
 
-    <div>
-      <span>🤲</span>
+          <div>
+            <span>♡</span>
 
-      <p>
-        <strong>
-          Voluntarios
-        </strong>
+            <p>
+              <strong>
+                Familias
+              </strong>
 
-        comprometidos
-      </p>
-    </div>
+              acompañadas
+            </p>
+          </div>
 
 
-    <div>
-      <span>✨</span>
+          <div>
+            <span>🤲</span>
 
-      <p>
-        <strong>
-          Comunidades
-        </strong>
+            <p>
+              <strong>
+                Voluntarios
+              </strong>
 
-        transformadas
-      </p>
-    </div>
+              comprometidos
+            </p>
+          </div>
 
-  </div>
 
-</section>
+          <div>
+            <span>✨</span>
+
+            <p>
+              <strong>
+                Comunidades
+              </strong>
+
+              transformadas
+            </p>
+          </div>
+
+        </div>
+
+      </section>
 
       <section id="nosotros" className="section about-section">
         <div className="container about-grid">
-          
+
           <div className="about-logo-card">
 
             <Image
@@ -321,10 +321,10 @@ export default async function Home() {
 
               Tu navegador no puede reproducir este video.
             </video>
-            
+
 
           </div>
-          
+
         </div>
       </section>
 
@@ -435,6 +435,92 @@ export default async function Home() {
 
         </div>
 
+      </section>
+      <section id="cursos" className="section courses-home-section">
+        <div className="container">
+
+          <div className="courses-home-header">
+            <span className="eyebrow">
+              FORMACIÓN QUE TRANSFORMA
+            </span>
+
+            <h2>
+              Aprende, crece y transforma
+            </h2>
+
+            <p>
+              En Fundación Corazón Valiente Colombia creemos que el conocimiento
+              también transforma vidas. Por eso estamos creando espacios de
+              formación pensados para fortalecer capacidades, compartir herramientas
+              y generar nuevas oportunidades para las personas y las comunidades.
+            </p>
+          </div>
+
+
+          <div className="courses-home-grid">
+
+            <div className="course-home-card">
+              <div className="course-home-icon">
+                🎓
+              </div>
+
+              <h3>
+                Cursos y formación
+              </h3>
+
+              <p>
+                Espacios de aprendizaje para adquirir nuevos conocimientos
+                y fortalecer habilidades personales y profesionales.
+              </p>
+            </div>
+
+
+            <div className="course-home-card">
+              <div className="course-home-icon">
+                🤝
+              </div>
+
+              <h3>
+                Talleres
+              </h3>
+
+              <p>
+                Encuentros prácticos para aprender, compartir experiencias
+                y construir herramientas para la vida.
+              </p>
+            </div>
+
+
+            <div className="course-home-card">
+              <div className="course-home-icon">
+                ❤️
+              </div>
+
+              <h3>
+                Formación con propósito
+              </h3>
+
+              <p>
+                Procesos educativos orientados al bienestar, el empoderamiento
+                y la transformación de nuestras comunidades.
+              </p>
+            </div>
+
+          </div>
+
+
+          <div className="courses-home-action">
+
+            <a
+              href="/cursos"
+              className="button button-primary"
+            >
+              Conoce nuestros cursos →
+            </a>
+
+          </div>
+
+        </div>
       </section>
 
 

@@ -80,6 +80,11 @@ export async function POST(request: Request) {
 
     const area_conocimiento =
       body.area_conocimiento?.trim();
+    const ciudad =
+      body.ciudad?.trim();
+
+    const departamento =
+      body.departamento?.trim();
 
     const mensaje =
       body.mensaje?.trim();
@@ -90,22 +95,25 @@ export async function POST(request: Request) {
     // ===============================
 
     if (
-      !nombre ||
-      !correo ||
-      !telefono ||
-      !estudios ||
-      !area_conocimiento
-    ) {
-      return NextResponse.json(
-        {
-          error:
-            "Nombre, correo, teléfono, nivel de estudios y área de conocimiento son obligatorios",
-        },
-        {
-          status: 400,
-        }
-      );
+  !nombre ||
+  !correo ||
+  !telefono ||
+  !estudios ||
+  !area_conocimiento ||
+  !ciudad ||
+  !departamento
+) {
+  return NextResponse.json(
+    {
+      error:
+        "Nombre, correo, teléfono, nivel de estudios, área de conocimiento, ciudad y departamento son obligatorios",
+    },
+    {
+      status: 400,
     }
+  );
+}
+
 
 
     // ===============================
@@ -209,6 +217,27 @@ export async function POST(request: Request) {
         }
       );
     }
+    if (ciudad.length > 100) {
+  return NextResponse.json(
+    {
+      error: "La ciudad es demasiado larga",
+    },
+    {
+      status: 400,
+    }
+  );
+}
+
+if (departamento.length > 100) {
+  return NextResponse.json(
+    {
+      error: "El departamento es demasiado largo",
+    },
+    {
+      status: 400,
+    }
+  );
+}
 
     if (
       area_conocimiento.length < 2
@@ -254,6 +283,8 @@ export async function POST(request: Request) {
 
           estudios,
           area_conocimiento,
+          ciudad,
+  departamento,
 
           mensaje:
             mensaje || null,
@@ -267,6 +298,8 @@ export async function POST(request: Request) {
           nombre,
           estudios,
           area_conocimiento,
+          ciudad,
+          departamento,
           estado
           `
         )

@@ -47,6 +47,14 @@ export default function VolunteerForm() {
       String(
         formData.get("area_conocimiento") ?? ""
       ).trim();
+    const ciudad =
+      String(formData.get("ciudad") ?? "")
+        .trim();
+
+    const departamento =
+      String(formData.get("departamento") ?? "")
+        .trim();
+
 
     const mensaje =
       String(formData.get("mensaje") ?? "")
@@ -66,18 +74,16 @@ export default function VolunteerForm() {
       !correo ||
       !telefono ||
       !estudios ||
-      !area_conocimiento
+      !area_conocimiento ||
+      !ciudad ||
+      !departamento
     ) {
-
       setStatus("error");
-
       setMessage(
         "Por favor completa todos los campos obligatorios."
       );
-
       return;
     }
-
 
     setStatus("sending");
     setMessage("");
@@ -102,6 +108,8 @@ export default function VolunteerForm() {
               telefono,
               estudios,
               area_conocimiento,
+              ciudad,
+              departamento,
               mensaje,
               website,
             }),
@@ -281,6 +289,35 @@ export default function VolunteerForm() {
 
       </label>
 
+      <label htmlFor="departamento">
+  Departamento
+
+  <input
+    id="departamento"
+    type="text"
+    name="departamento"
+    placeholder="Ej: Boyacá, Cundinamarca, Antioquia..."
+    minLength={2}
+    maxLength={100}
+    required
+  />
+</label>
+
+
+<label htmlFor="ciudad">
+  Ciudad o municipio
+
+  <input
+    id="ciudad"
+    type="text"
+    name="ciudad"
+    placeholder="Ej: Bogotá, Sogamoso, Medellín..."
+    minLength={2}
+    maxLength={100}
+    required
+  />
+</label>
+
 
       {/* MENSAJE */}
 
@@ -369,10 +406,9 @@ export default function VolunteerForm() {
 
           <div
             className={
-              `form-message ${
-                status === "success"
-                  ? "form-message-success"
-                  : "form-message-error"
+              `form-message ${status === "success"
+                ? "form-message-success"
+                : "form-message-error"
               }`
             }
             role="status"

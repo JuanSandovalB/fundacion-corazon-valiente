@@ -13,6 +13,8 @@ type Voluntario = {
 
   estudios: string | null;
   area_conocimiento: string | null;
+  ciudad: string | null;
+  departamento: string | null;
 
   mensaje: string | null;
   estado: string;
@@ -25,7 +27,7 @@ type Voluntario = {
 
 type Props = {
 
-voluntariosIniciales: Voluntario[];
+  voluntariosIniciales: Voluntario[];
 
 };
 
@@ -33,218 +35,218 @@ voluntariosIniciales: Voluntario[];
 
 export default function VoluntariosPanel({
 
-voluntariosIniciales
+  voluntariosIniciales
 
-}:Props){
+}: Props) {
 
 
 
-const [voluntarios,setVoluntarios]=useState<Voluntario[]>(
+  const [voluntarios, setVoluntarios] = useState<Voluntario[]>(
 
-voluntariosIniciales
+    voluntariosIniciales
 
-);
+  );
 
 
 
-const [busqueda,setBusqueda]=useState("");
+  const [busqueda, setBusqueda] = useState("");
 
-const [filtroEstado,setFiltroEstado]=useState("todos");
+  const [filtroEstado, setFiltroEstado] = useState("todos");
 
-const [seleccionado,setSeleccionado]=useState<Voluntario|null>(null);
+  const [seleccionado, setSeleccionado] = useState<Voluntario | null>(null);
 
 
 
 
 
-// ===============================
-// ACTUALIZAR VOLUNTARIO
-// ===============================
+  // ===============================
+  // ACTUALIZAR VOLUNTARIO
+  // ===============================
 
 
-async function guardarCambios(){
+  async function guardarCambios() {
 
 
-if(!seleccionado)return;
+    if (!seleccionado) return;
 
 
 
-const respuesta = await fetch(
+    const respuesta = await fetch(
 
-"/api/voluntarios",
+      "/api/voluntarios",
 
-{
+      {
 
-method:"PUT",
+        method: "PUT",
 
-headers:{
+        headers: {
 
-"Content-Type":"application/json"
+          "Content-Type": "application/json"
 
-},
+        },
 
-body:JSON.stringify({
+        body: JSON.stringify({
 
-id:seleccionado.id,
+          id: seleccionado.id,
 
-estado:seleccionado.estado,
+          estado: seleccionado.estado,
 
-notas_admin:seleccionado.notas_admin,
+          notas_admin: seleccionado.notas_admin,
 
-fecha_contacto:
+          fecha_contacto:
 
-seleccionado.estado==="contactado"
+            seleccionado.estado === "contactado"
 
-?
+              ?
 
-new Date().toISOString()
+              new Date().toISOString()
 
-:
+              :
 
-seleccionado.fecha_contacto
+              seleccionado.fecha_contacto
 
-})
+        })
 
-}
+      }
 
-);
+    );
 
 
 
 
-if(!respuesta.ok){
+    if (!respuesta.ok) {
 
-alert("Error actualizando");
+      alert("Error actualizando");
 
-return;
+      return;
 
-}
+    }
 
 
 
-alert("Cambios guardados correctamente");
+    alert("Cambios guardados correctamente");
 
 
 
-setVoluntarios(
+    setVoluntarios(
 
-voluntarios.map(item=>
+      voluntarios.map(item =>
 
-item.id===seleccionado.id
+        item.id === seleccionado.id
 
-?
+          ?
 
-seleccionado
+          seleccionado
 
-:
+          :
 
-item
+          item
 
-)
+      )
 
-);
+    );
 
 
 
-setSeleccionado(null);
+    setSeleccionado(null);
 
 
 
-}
+  }
 
 
 
 
 
-// ===============================
-// ELIMINAR VOLUNTARIO
-// ===============================
+  // ===============================
+  // ELIMINAR VOLUNTARIO
+  // ===============================
 
 
-async function eliminarVoluntario(id:string){
+  async function eliminarVoluntario(id: string) {
 
 
-const confirmar = window.confirm(
+    const confirmar = window.confirm(
 
-"¿Está seguro de eliminar este voluntario?"
+      "¿Está seguro de eliminar este voluntario?"
 
-);
+    );
 
 
 
-if(!confirmar){
+    if (!confirmar) {
 
-return;
+      return;
 
-}
+    }
 
 
 
-const respuesta = await fetch(
+    const respuesta = await fetch(
 
-"/api/voluntarios",
+      "/api/voluntarios",
 
-{
+      {
 
-method:"DELETE",
+        method: "DELETE",
 
-headers:{
+        headers: {
 
-"Content-Type":"application/json"
+          "Content-Type": "application/json"
 
-},
+        },
 
-body:JSON.stringify({
+        body: JSON.stringify({
 
-id
+          id
 
-})
+        })
 
-}
+      }
 
-);
+    );
 
 
 
-const data = await respuesta.json();
+    const data = await respuesta.json();
 
 
 
-if(!respuesta.ok){
+    if (!respuesta.ok) {
 
-alert(
+      alert(
 
-data.error || "Error eliminando voluntario"
+        data.error || "Error eliminando voluntario"
 
-);
+      );
 
-return;
+      return;
 
-}
+    }
 
 
 
-alert(
+    alert(
 
-"Voluntario eliminado correctamente"
+      "Voluntario eliminado correctamente"
 
-);
+    );
 
 
 
-setVoluntarios(
+    setVoluntarios(
 
-voluntarios.filter(
+      voluntarios.filter(
 
-(item)=>item.id!==id
+        (item) => item.id !== id
 
-)
+      )
 
-);
+    );
 
 
 
-}
+  }
 
 
 
@@ -252,60 +254,62 @@ voluntarios.filter(
 
 
 
-// ===============================
-// EXPORTAR EXCEL
-// ===============================
+  // ===============================
+  // EXPORTAR EXCEL
+  // ===============================
 
 
-function exportarExcel() {
+  function exportarExcel() {
 
-  const datos = voluntarios.map(item => ({
-    Nombre: item.nombre,
-    Correo: item.correo,
-    Telefono: item.telefono,
+    const datos = voluntarios.map(item => ({
+      Nombre: item.nombre,
+      Correo: item.correo,
+      Telefono: item.telefono,
 
-    Estudios:
-      item.estudios || "",
+      Estudios:
+        item.estudios || "",
 
-    Area_conocimiento:
-      item.area_conocimiento || "",
+      Area_conocimiento:
+        item.area_conocimiento || "",
+      Departamento: item.departamento || "",
+      Ciudad: item.ciudad || "",
 
-    Estado: item.estado,
+      Estado: item.estado,
 
-    Mensaje:
-      item.mensaje || "",
+      Mensaje:
+        item.mensaje || "",
 
-    Notas:
-      item.notas_admin || "",
+      Notas:
+        item.notas_admin || "",
 
-    Fecha_registro:
-      new Date(item.created_at)
-        .toLocaleDateString("es-CO"),
+      Fecha_registro:
+        new Date(item.created_at)
+          .toLocaleDateString("es-CO"),
 
-    Fecha_contacto:
-      item.fecha_contacto
-        ? new Date(item.fecha_contacto)
+      Fecha_contacto:
+        item.fecha_contacto
+          ? new Date(item.fecha_contacto)
             .toLocaleDateString("es-CO")
-        : "",
-  }));
+          : "",
+    }));
 
-  const hoja =
-    XLSX.utils.json_to_sheet(datos);
+    const hoja =
+      XLSX.utils.json_to_sheet(datos);
 
-  const libro =
-    XLSX.utils.book_new();
+    const libro =
+      XLSX.utils.book_new();
 
-  XLSX.utils.book_append_sheet(
-    libro,
-    hoja,
-    "Voluntarios"
-  );
+    XLSX.utils.book_append_sheet(
+      libro,
+      hoja,
+      "Voluntarios"
+    );
 
-  XLSX.writeFile(
-    libro,
-    "Voluntarios_Corazon_Valiente.xlsx"
-  );
-}
+    XLSX.writeFile(
+      libro,
+      "Voluntarios_Corazon_Valiente.xlsx"
+    );
+  }
 
 
 
@@ -313,46 +317,46 @@ function exportarExcel() {
 
 
 
-// ===============================
-// FILTROS
-// ===============================
+  // ===============================
+  // FILTROS
+  // ===============================
 
-const voluntariosFiltrados =
-  voluntarios.filter(item => {
+  const voluntariosFiltrados =
+    voluntarios.filter(item => {
 
-    const termino =
-      busqueda.toLowerCase();
+      const termino =
+        busqueda.toLowerCase();
 
-    const texto =
-      item.nombre
-        .toLowerCase()
-        .includes(termino)
+      const texto =
+        item.nombre
+          .toLowerCase()
+          .includes(termino)
 
-      ||
+        ||
 
-      item.correo
-        .toLowerCase()
-        .includes(termino)
+        item.correo
+          .toLowerCase()
+          .includes(termino)
 
-      ||
+        ||
 
-      (item.estudios || "")
-        .toLowerCase()
-        .includes(termino)
+        (item.estudios || "")
+          .toLowerCase()
+          .includes(termino)
 
-      ||
+        ||
 
-      (item.area_conocimiento || "")
-        .toLowerCase()
-        .includes(termino);
+        (item.area_conocimiento || "")
+          .toLowerCase()
+          .includes(termino);
 
-    const estado =
-      filtroEstado === "todos"
-      ||
-      item.estado === filtroEstado;
+      const estado =
+        filtroEstado === "todos"
+        ||
+        item.estado === filtroEstado;
 
-    return texto && estado;
-  });
+      return texto && estado;
+    });
 
 
 
@@ -360,475 +364,505 @@ const voluntariosFiltrados =
 
 
 
-return(
+  return (
 
 
-<main className="admin-container">
+    <main className="admin-container">
 
 
 
-<section className="dashboard-card">
+      <section className="dashboard-card">
 
 
 
-<h1>
+        <h1>
 
-Gestión de Voluntarios
+          Gestión de Voluntarios
 
-</h1>
+        </h1>
 
 
 
 
-<div className="admin-filtros">
+        <div className="admin-filtros">
 
 
 
-<button
+          <button
 
-className="export-button"
+            className="export-button"
 
-onClick={exportarExcel}
+            onClick={exportarExcel}
 
->
+          >
 
-📥 Descargar Excel
+            📥 Descargar Excel
 
-</button>
+          </button>
 
 
 
 
-<input
+          <input
 
-placeholder="Buscar por nombre o correo,estudios o área."
+            placeholder="Buscar por nombre o correo,estudios o área."
 
-value={busqueda}
+            value={busqueda}
 
-onChange={e=>setBusqueda(e.target.value)}
+            onChange={e => setBusqueda(e.target.value)}
 
-/>
+          />
 
 
 
 
-<select
+          <select
 
-value={filtroEstado}
+            value={filtroEstado}
 
-onChange={e=>setFiltroEstado(e.target.value)}
+            onChange={e => setFiltroEstado(e.target.value)}
 
->
+          >
 
 
-<option value="todos">
+            <option value="todos">
 
-Todos
+              Todos
 
-</option>
+            </option>
 
 
-<option value="pendiente">
+            <option value="pendiente">
 
-Pendiente
+              Pendiente
 
-</option>
+            </option>
 
 
-<option value="contactado">
+            <option value="contactado">
 
-Contactado
+              Contactado
 
-</option>
+            </option>
 
 
-<option value="aprobado">
+            <option value="aprobado">
 
-Aprobado
+              Aprobado
 
-</option>
+            </option>
 
 
-<option value="cerrado">
+            <option value="cerrado">
 
-Cerrado
+              Cerrado
 
-</option>
+            </option>
 
 
-</select>
+          </select>
 
 
 
-</div>
+        </div>
 
 
 
 
 
 
-<table>
+        <table>
 
 
 
-<thead>
-  <tr>
-    <th>Nombre</th>
-    <th>Correo</th>
-    <th>Teléfono</th>
-    <th>Estudios</th>
-    <th>Área de conocimiento</th>
-    <th>Estado</th>
-    <th>Acción</th>
-  </tr>
-</thead>
+          <thead>
+            <tr>
+              <th>Nombre</th>
+              <th>Correo</th>
+              <th>Teléfono</th>
+              <th>Estudios</th>
+              <th>Área de conocimiento</th>
+              <th>Ciudad</th>
+              <th>Estado</th>
+              <th>Acción</th>
+            </tr>
+          </thead>
 
 
 
 
 
 
-<tbody>
+          <tbody>
 
-  {voluntariosFiltrados.map(item => (
+            {voluntariosFiltrados.map(item => (
 
-    <tr key={item.id}>
+              <tr key={item.id}>
 
-      <td>
-        {item.nombre}
-      </td>
+                <td>
+                  {item.nombre}
+                </td>
 
-      <td>
-        {item.correo}
-      </td>
+                <td>
+                  {item.correo}
+                </td>
 
-      <td>
-        {item.telefono}
-      </td>
+                <td>
+                  {item.telefono}
+                </td>
 
-      <td>
-        {item.estudios || "No registrado"}
-      </td>
+                <td>
+                  {item.estudios || "No registrado"}
+                </td>
 
-      <td>
-        {item.area_conocimiento || "No registrado"}
-      </td>
+                <td>
+                  {item.area_conocimiento || "No registrado"}
+                </td>
+                <td>
+                  {item.ciudad || "No registrado"}
+                </td>
+                <td>
 
-      <td>
+                  <span
+                    className={`status ${item.estado === "pendiente"
+                      ? "status-pendiente"
+                      : item.estado === "contactado"
+                        ? "status-contactado"
+                        : item.estado === "aprobado"
+                          ? "status-aprobado"
+                          : "status-cerrado"
+                      }`}
+                  >
+                    {item.estado}
+                  </span>
 
-        <span
-          className={`status ${
-            item.estado === "pendiente"
-              ? "status-pendiente"
-              : item.estado === "contactado"
-              ? "status-contactado"
-              : item.estado === "aprobado"
-              ? "status-aprobado"
-              : "status-cerrado"
-          }`}
-        >
-          {item.estado}
-        </span>
+                </td>
 
-      </td>
+                <td>
 
-      <td>
+                  <button
+                    className="admin-action"
+                    onClick={() =>
+                      setSeleccionado(item)
+                    }
+                  >
+                    Gestionar
+                  </button>
 
-        <button
-          className="admin-action"
-          onClick={() =>
-            setSeleccionado(item)
-          }
-        >
-          Gestionar
-        </button>
+                  <br />
 
-        <br />
+                  <button
+                    className="admin-delete"
+                    onClick={() =>
+                      eliminarVoluntario(item.id)
+                    }
+                  >
+                    Eliminar
+                  </button>
 
-        <button
-          className="admin-delete"
-          onClick={() =>
-            eliminarVoluntario(item.id)
-          }
-        >
-          Eliminar
-        </button>
+                </td>
 
-      </td>
+              </tr>
 
-    </tr>
+            ))}
 
-  ))}
+          </tbody>
 
-</tbody>
 
 
+        </table>
 
-</table>
 
 
 
+      </section>
 
-</section>
 
 
 
 
 
+      {
 
-{
 
+        seleccionado && (
 
-seleccionado && (
 
 
+          <div className="modal">
 
-<div className="modal">
 
 
+            <div className="modal-content">
 
-<div className="modal-content">
 
+              <div className="modal-header">
 
-<div className="modal-header">
+                <h2>
+                  Gestionar solicitud
+                </h2>
 
-<h2>
-Gestionar solicitud
-</h2>
+                <p>
+                  Revisa la información del voluntario y actualiza su estado.
+                </p>
 
-<p>
-Revisa la información del voluntario y actualiza su estado.
-</p>
+              </div>
 
-</div>
 
 
+              <div className="info-box">
 
-<div className="info-box">
+                <span>
+                  Nombre
+                </span>
 
-<span>
-Nombre
-</span>
+                <strong>
+                  {seleccionado.nombre}
+                </strong>
 
-<strong>
-{seleccionado.nombre}
-</strong>
+              </div>
 
-</div>
 
 
+              <div className="info-box">
 
-<div className="info-box">
+                <span>
+                  Correo electrónico
+                </span>
 
-<span>
-Correo electrónico
-</span>
+                <strong>
+                  {seleccionado.correo}
+                </strong>
 
-<strong>
-{seleccionado.correo}
-</strong>
+              </div>
 
-</div>
 
 
+              <div className="info-box">
 
-<div className="info-box">
+                <span>
+                  Teléfono
+                </span>
 
-<span>
-Teléfono
-</span>
+                <strong>
+                  {seleccionado.telefono}
+                </strong>
 
-<strong>
-{seleccionado.telefono}
-</strong>
+              </div>
+              <div className="info-box">
+                <span>Nivel de estudios</span>
+                <strong>
+                  {seleccionado.estudios || "No registrado"}
+                </strong>
+              </div>
 
-</div>
-<div className="info-box">
+              <div className="info-box">
+                <span>Área de conocimiento</span>
+                <strong>
+                  {seleccionado.area_conocimiento || "No registrado"}
+                </strong>
+              </div>
 
-  <span>
-    Nivel de estudios
-  </span>
+              <div className="info-box">
+                <span>Departamento</span>
+                <strong>
+                  {seleccionado.departamento || "No registrado"}
+                </strong>
+              </div>
 
-  <strong>
-    {seleccionado.estudios || "No registrado"}
-  </strong>
+              <div className="info-box">
+                <span>Ciudad o municipio</span>
+                <strong>
+                  {seleccionado.ciudad || "No registrado"}
+                </strong>
+              </div>
+              <div className="info-box">
 
-</div>
+                <span>
+                  Nivel de estudios
+                </span>
 
+                <strong>
+                  {seleccionado.estudios || "No registrado"}
+                </strong>
 
-<div className="info-box">
+              </div>
 
-  <span>
-    Área de conocimiento
-  </span>
 
-  <strong>
-    {seleccionado.area_conocimiento || "No registrado"}
-  </strong>
+              <div className="info-box">
 
-</div>
+                <span>
+                  Área de conocimiento
+                </span>
 
+                <strong>
+                  {seleccionado.area_conocimiento || "No registrado"}
+                </strong>
 
+              </div>
 
-<div className="info-box">
 
-<span>
-Mensaje del voluntario
-</span>
 
-<strong>
-{seleccionado.mensaje || "Sin mensaje"}
-</strong>
 
-</div>
+              <div className="info-box">
 
+                <span>
+                  Mensaje del voluntario
+                </span>
 
+                <strong>
+                  {seleccionado.mensaje || "Sin mensaje"}
+                </strong>
 
+              </div>
 
 
-<label>
 
-Estado
 
-</label>
 
+              <label>
 
+                Estado
 
-<select
+              </label>
 
-value={seleccionado.estado}
 
-onChange={e=>
 
-setSeleccionado({
+              <select
 
-...seleccionado,
+                value={seleccionado.estado}
 
-estado:e.target.value
+                onChange={e =>
 
-})
+                  setSeleccionado({
 
-}
+                    ...seleccionado,
 
->
+                    estado: e.target.value
 
+                  })
 
-<option value="pendiente">
+                }
 
-Pendiente
+              >
 
-</option>
 
+                <option value="pendiente">
 
-<option value="contactado">
+                  Pendiente
 
-Contactado
+                </option>
 
-</option>
 
+                <option value="contactado">
 
-<option value="aprobado">
+                  Contactado
 
-Aprobado
+                </option>
 
-</option>
 
+                <option value="aprobado">
 
-<option value="cerrado">
+                  Aprobado
 
-Cerrado
+                </option>
 
-</option>
 
+                <option value="cerrado">
 
-</select>
+                  Cerrado
 
+                </option>
 
 
+              </select>
 
 
 
-<label>
 
-Notas internas
 
-</label>
 
+              <label>
 
+                Notas internas
 
+              </label>
 
-<textarea
 
-value={seleccionado.notas_admin || ""}
 
-onChange={e=>
 
-setSeleccionado({
+              <textarea
 
-...seleccionado,
+                value={seleccionado.notas_admin || ""}
 
-notas_admin:e.target.value
+                onChange={e =>
 
-})
+                  setSeleccionado({
 
-}
+                    ...seleccionado,
 
-/>
+                    notas_admin: e.target.value
 
+                  })
 
+                }
 
+              />
 
 
 
 
 
 
-<button
 
-className="modal-primary"
 
-onClick={guardarCambios}
 
->
+              <button
 
-Guardar cambios
+                className="modal-primary"
 
-</button>
-<button
+                onClick={guardarCambios}
 
-className="modal-secondary"
+              >
 
-onClick={()=>setSeleccionado(null)}
+                Guardar cambios
 
->
-Cancelar
-</button>
+              </button>
+              <button
 
+                className="modal-secondary"
 
+                onClick={() => setSeleccionado(null)}
 
+              >
+                Cancelar
+              </button>
 
 
 
-</div>
 
 
-</div>
 
+            </div>
 
 
-)
+          </div>
 
 
 
-}
+        )
 
 
 
+      }
 
 
-</main>
 
 
-)
+
+    </main>
+
+
+  )
 
 }
