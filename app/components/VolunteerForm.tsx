@@ -1,94 +1,174 @@
 "use client";
 
 import { FormEvent, useState } from "react";
-import type { Metadata } from "next";
 
-export const metadata: Metadata = {
-  title: "Voluntariado",
-  description:
-    "Únete como voluntario a la Fundación Corazón Valiente y participa en iniciativas sociales y comunitarias.",
-  alternates: {
-    canonical: "/voluntariado",
-  },
-  openGraph: {
-    title: "Voluntariado | Fundación Corazón Valiente",
-    description:
-      "Haz parte de nuestras iniciativas sociales y comunitarias como voluntario.",
-    url: "/voluntariado",
-  },
-};
-
-type FormStatus = "idle" | "sending" | "success" | "error";
+type FormStatus =
+  | "idle"
+  | "sending"
+  | "success"
+  | "error";
 
 export default function VolunteerForm() {
-  const [status, setStatus] = useState<FormStatus>("idle");
-  const [message, setMessage] = useState("");
 
-  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
-  event.preventDefault();
+  const [status, setStatus] =
+    useState<FormStatus>("idle");
 
-  const form = event.currentTarget;
-  const formData = new FormData(form);
+  const [message, setMessage] =
+    useState("");
 
-  const nombre = String(formData.get("nombre") ?? "").trim();
-  const correo = String(formData.get("correo") ?? "")
-    .trim()
-    .toLowerCase();
-  const telefono = String(formData.get("telefono") ?? "").trim();
-  const mensaje = String(formData.get("mensaje") ?? "").trim();
-  const website = String(formData.get("website") ?? "").trim();
 
-  if (!nombre || !correo || !telefono) {
-    setStatus("error");
-    setMessage("Por favor completa todos los campos obligatorios.");
-    return;
-  }
+  async function handleSubmit(
+    event: FormEvent<HTMLFormElement>
+  ) {
 
-  setStatus("sending");
-  setMessage("");
+    event.preventDefault();
 
-  try {
-    const response = await fetch("/api/voluntarios", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-  nombre,
-  correo,
-  telefono,
-  mensaje,
-  website,
-}),
-    });
+    const form = event.currentTarget;
+    const formData = new FormData(form);
 
-    const data = await response.json();
+    const nombre =
+      String(formData.get("nombre") ?? "")
+        .trim();
 
-    if (!response.ok) {
-      throw new Error(
-        data.message || "No fue posible registrar la solicitud.",
+    const correo =
+      String(formData.get("correo") ?? "")
+        .trim()
+        .toLowerCase();
+
+    const telefono =
+      String(formData.get("telefono") ?? "")
+        .trim();
+
+    const estudios =
+      String(formData.get("estudios") ?? "")
+        .trim();
+
+    const area_conocimiento =
+      String(
+        formData.get("area_conocimiento") ?? ""
+      ).trim();
+
+    const mensaje =
+      String(formData.get("mensaje") ?? "")
+        .trim();
+
+    const website =
+      String(formData.get("website") ?? "")
+        .trim();
+
+
+    // ===============================
+    // VALIDACIONES
+    // ===============================
+
+    if (
+      !nombre ||
+      !correo ||
+      !telefono ||
+      !estudios ||
+      !area_conocimiento
+    ) {
+
+      setStatus("error");
+
+      setMessage(
+        "Por favor completa todos los campos obligatorios."
       );
+
+      return;
     }
 
-    setStatus("success");
-    setMessage(data.message);
-    form.reset();
-  } catch (error) {
-    console.error("Error enviando la solicitud:", error);
 
-    setStatus("error");
-    setMessage(
-      error instanceof Error
-        ? error.message
-        : "No pudimos enviar tu solicitud. Intenta nuevamente.",
-    );
+    setStatus("sending");
+    setMessage("");
+
+
+    try {
+
+      const response =
+        await fetch(
+          "/api/voluntarios",
+          {
+            method: "POST",
+
+            headers: {
+              "Content-Type":
+                "application/json",
+            },
+
+            body: JSON.stringify({
+              nombre,
+              correo,
+              telefono,
+              estudios,
+              area_conocimiento,
+              mensaje,
+              website,
+            }),
+          }
+        );
+
+
+      const data =
+        await response.json();
+
+
+      if (!response.ok) {
+
+        throw new Error(
+          data.message ||
+          data.error ||
+          "No fue posible registrar la solicitud."
+        );
+
+      }
+
+
+      setStatus("success");
+
+      setMessage(
+        data.message ||
+        "¡Gracias! Tu solicitud fue enviada correctamente."
+      );
+
+      form.reset();
+
+
+    } catch (error) {
+
+      console.error(
+        "Error enviando la solicitud:",
+        error
+      );
+
+
+      setStatus("error");
+
+      setMessage(
+        error instanceof Error
+          ? error.message
+          : "No pudimos enviar tu solicitud. Intenta nuevamente."
+      );
+
+    }
+
   }
-}
+
 
   return (
-    <form className="volunteer-form" onSubmit={handleSubmit}>
+
+    <form
+      className="volunteer-form"
+      onSubmit={handleSubmit}
+    >
+
+
+      {/* NOMBRE */}
+
       <label htmlFor="nombre">
+
         Nombre completo
+
         <input
           id="nombre"
           type="text"
@@ -99,10 +179,16 @@ export default function VolunteerForm() {
           maxLength={100}
           required
         />
+
       </label>
 
+
+      {/* CORREO */}
+
       <label htmlFor="correo">
+
         Correo electrónico
+
         <input
           id="correo"
           type="email"
@@ -112,10 +198,16 @@ export default function VolunteerForm() {
           maxLength={150}
           required
         />
+
       </label>
 
+
+      {/* TELÉFONO */}
+
       <label htmlFor="telefono">
+
         Número de contacto
+
         <input
           id="telefono"
           type="tel"
@@ -126,10 +218,76 @@ export default function VolunteerForm() {
           maxLength={20}
           required
         />
+
       </label>
 
+
+      {/* NIVEL DE ESTUDIOS */}
+
+      <label htmlFor="estudios">
+
+        Nivel de estudios
+
+        <select
+          id="estudios"
+          name="estudios"
+          defaultValue=""
+          required
+        >
+
+          <option
+            value=""
+            disabled
+          >
+            Selecciona tu nivel de estudios
+          </option>
+
+          <option value="Bachillerato">
+            Bachillerato
+          </option>
+
+          <option value="Técnico">
+            Técnico
+          </option>
+
+          <option value="Tecnólogo">
+            Tecnólogo
+          </option>
+
+          <option value="Profesional">
+            Profesional
+          </option>
+
+        </select>
+
+      </label>
+
+
+      {/* ÁREA DE CONOCIMIENTO */}
+
+      <label htmlFor="area_conocimiento">
+
+        Área de conocimiento
+
+        <input
+          id="area_conocimiento"
+          type="text"
+          name="area_conocimiento"
+          placeholder="Ej: Psicología, Derecho, Educación, Sistemas..."
+          minLength={2}
+          maxLength={150}
+          required
+        />
+
+      </label>
+
+
+      {/* MENSAJE */}
+
       <label htmlFor="mensaje">
+
         ¿Cómo te gustaría ayudar?
+
         <textarea
           id="mensaje"
           name="mensaje"
@@ -137,62 +295,99 @@ export default function VolunteerForm() {
           maxLength={600}
           rows={4}
         />
+
       </label>
+
+
+      {/* HONEYPOT ANTISPAM */}
 
       <div
-  aria-hidden="true"
-  style={{
-    position: "absolute",
-    left: "-9999px",
-    width: "1px",
-    height: "1px",
-    overflow: "hidden",
-  }}
->
-  <label htmlFor="website">
-    Sitio web
-  </label>
+        aria-hidden="true"
+        style={{
+          position: "absolute",
+          left: "-9999px",
+          width: "1px",
+          height: "1px",
+          overflow: "hidden",
+        }}
+      >
 
-  <input
-    id="website"
-    type="text"
-    name="website"
-    tabIndex={-1}
-    autoComplete="off"
-  />
-</div>
+        <label htmlFor="website">
+          Sitio web
+        </label>
+
+        <input
+          id="website"
+          type="text"
+          name="website"
+          tabIndex={-1}
+          autoComplete="off"
+        />
+
+      </div>
+
+
+      {/* AUTORIZACIÓN */}
 
       <label className="privacy-check">
-        <input type="checkbox" required />
+
+        <input
+          type="checkbox"
+          required
+        />
+
         <span>
-          Autorizo el tratamiento de mis datos para gestionar esta solicitud de
+          Autorizo el tratamiento de mis datos
+          para gestionar esta solicitud de
           voluntariado.
         </span>
+
       </label>
+
+
+      {/* BOTÓN */}
 
       <button
         type="submit"
         className="button button-primary volunteer-submit"
         disabled={status === "sending"}
       >
-        {status === "sending"
-          ? "Enviando solicitud..."
-          : "Quiero ser voluntario"}
+
+        {
+          status === "sending"
+            ? "Enviando solicitud..."
+            : "Quiero ser voluntario"
+        }
+
       </button>
 
-      {message && (
-        <div
-          className={`form-message ${
-            status === "success"
-              ? "form-message-success"
-              : "form-message-error"
-          }`}
-          role="status"
-          aria-live="polite"
-        >
-          {message}
-        </div>
-      )}
+
+      {/* RESPUESTA */}
+
+      {
+        message && (
+
+          <div
+            className={
+              `form-message ${
+                status === "success"
+                  ? "form-message-success"
+                  : "form-message-error"
+              }`
+            }
+            role="status"
+            aria-live="polite"
+          >
+
+            {message}
+
+          </div>
+
+        )
+      }
+
     </form>
+
   );
+
 }

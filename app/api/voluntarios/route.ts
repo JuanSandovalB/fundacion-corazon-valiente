@@ -13,6 +13,10 @@ import {
 // CREAR SOLICITUD VOLUNTARIADO
 // PÚBLICO
 // ===============================
+// ===============================
+// CREAR SOLICITUD VOLUNTARIADO
+// PÚBLICO
+// ===============================
 
 export async function POST(request: Request) {
   try {
@@ -71,24 +75,66 @@ export async function POST(request: Request) {
     const telefono =
       body.telefono?.trim();
 
+    const estudios =
+      body.estudios?.trim();
+
+    const area_conocimiento =
+      body.area_conocimiento?.trim();
+
     const mensaje =
       body.mensaje?.trim();
+
 
     // ===============================
     // VALIDAR CAMPOS OBLIGATORIOS
     // ===============================
 
-    if (!nombre || !correo || !telefono) {
+    if (
+      !nombre ||
+      !correo ||
+      !telefono ||
+      !estudios ||
+      !area_conocimiento
+    ) {
       return NextResponse.json(
         {
           error:
-            "Nombre, correo y teléfono son obligatorios",
+            "Nombre, correo, teléfono, nivel de estudios y área de conocimiento son obligatorios",
         },
         {
           status: 400,
         }
       );
     }
+
+
+    // ===============================
+    // VALIDAR NIVEL DE ESTUDIOS
+    // ===============================
+
+    const estudiosPermitidos = [
+      "Bachillerato",
+      "Técnico",
+      "Tecnólogo",
+      "Profesional",
+    ];
+
+    if (
+      !estudiosPermitidos.includes(
+        estudios
+      )
+    ) {
+      return NextResponse.json(
+        {
+          error:
+            "El nivel de estudios seleccionado no es válido",
+        },
+        {
+          status: 400,
+        }
+      );
+    }
+
 
     // ===============================
     // VALIDAR CORREO
@@ -108,6 +154,7 @@ export async function POST(request: Request) {
         }
       );
     }
+
 
     // ===============================
     // VALIDAR LONGITUDES
@@ -150,6 +197,34 @@ export async function POST(request: Request) {
     }
 
     if (
+      area_conocimiento.length > 150
+    ) {
+      return NextResponse.json(
+        {
+          error:
+            "El área de conocimiento es demasiado larga",
+        },
+        {
+          status: 400,
+        }
+      );
+    }
+
+    if (
+      area_conocimiento.length < 2
+    ) {
+      return NextResponse.json(
+        {
+          error:
+            "El área de conocimiento no es válida",
+        },
+        {
+          status: 400,
+        }
+      );
+    }
+
+    if (
       mensaje &&
       mensaje.length > 1500
     ) {
@@ -164,6 +239,7 @@ export async function POST(request: Request) {
       );
     }
 
+
     // ===============================
     // GUARDAR VOLUNTARIO
     // ===============================
@@ -175,13 +251,27 @@ export async function POST(request: Request) {
           nombre,
           correo,
           telefono,
-          mensaje: mensaje || null,
-          estado: "pendiente",
+
+          estudios,
+          area_conocimiento,
+
+          mensaje:
+            mensaje || null,
+
+          estado:
+            "pendiente",
         })
         .select(
-          "id,nombre,estado"
+          `
+          id,
+          nombre,
+          estudios,
+          area_conocimiento,
+          estado
+          `
         )
         .single();
+
 
     if (error) {
       console.error(
@@ -200,19 +290,27 @@ export async function POST(request: Request) {
       );
     }
 
+
     // ===============================
-    // REGISTRAR SOLICITUD PARA RATE LIMIT
+    // REGISTRAR SOLICITUD RATE LIMIT
     // ===============================
 
     await registrarSolicitudVoluntariado(
       ip
     );
 
+
+    // ===============================
+    // RESPUESTA
+    // ===============================
+
     return NextResponse.json(
       {
         success: true,
+
         message:
           "¡Gracias por registrarte! Tu solicitud de voluntariado fue enviada correctamente.",
+
         data,
       },
       {
@@ -237,16 +335,12 @@ export async function POST(request: Request) {
     );
   }
 }
-
-
 // ===============================
 // ACTUALIZAR VOLUNTARIO
 // SOLO ADMIN
 // ===============================
 
-export async function PUT(
-  request: Request
-) {
+export async function PUT(request: Request) {
   const admin =
     await verificarAdministrador();
 
@@ -473,9 +567,16 @@ export async function DELETE(
       );
     }
 
-    return NextResponse.json({
-      success: true,
-    });
+    return NextResponse.json(
+      {
+        success: true,
+        message:
+          "Voluntario eliminado correctamente",
+      },
+      {
+        status: 200,
+      }
+    );
 
   } catch (error) {
     console.error(

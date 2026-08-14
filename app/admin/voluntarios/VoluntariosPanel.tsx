@@ -6,25 +6,19 @@ import * as XLSX from "xlsx";
 
 
 type Voluntario = {
+  id: string;
+  nombre: string;
+  correo: string;
+  telefono: string;
 
-id:string;
+  estudios: string | null;
+  area_conocimiento: string | null;
 
-nombre:string;
-
-correo:string;
-
-telefono:string;
-
-mensaje:string | null;
-
-estado:string;
-
-notas_admin:string | null;
-
-fecha_contacto:string | null;
-
-created_at:string;
-
+  mensaje: string | null;
+  estado: string;
+  notas_admin: string | null;
+  fecha_contacto: string | null;
+  created_at: string;
 };
 
 
@@ -263,90 +257,54 @@ voluntarios.filter(
 // ===============================
 
 
-function exportarExcel(){
+function exportarExcel() {
 
+  const datos = voluntarios.map(item => ({
+    Nombre: item.nombre,
+    Correo: item.correo,
+    Telefono: item.telefono,
 
+    Estudios:
+      item.estudios || "",
 
-const datos = voluntarios.map(item=>({
+    Area_conocimiento:
+      item.area_conocimiento || "",
 
+    Estado: item.estado,
 
-Nombre:item.nombre,
+    Mensaje:
+      item.mensaje || "",
 
+    Notas:
+      item.notas_admin || "",
 
-Correo:item.correo,
+    Fecha_registro:
+      new Date(item.created_at)
+        .toLocaleDateString("es-CO"),
 
+    Fecha_contacto:
+      item.fecha_contacto
+        ? new Date(item.fecha_contacto)
+            .toLocaleDateString("es-CO")
+        : "",
+  }));
 
-Telefono:item.telefono,
+  const hoja =
+    XLSX.utils.json_to_sheet(datos);
 
+  const libro =
+    XLSX.utils.book_new();
 
-Estado:item.estado,
+  XLSX.utils.book_append_sheet(
+    libro,
+    hoja,
+    "Voluntarios"
+  );
 
-
-Mensaje:item.mensaje || "",
-
-
-Notas:item.notas_admin || "",
-
-
-Fecha_registro:
-
-new Date(item.created_at)
-
-.toLocaleDateString("es-CO"),
-
-
-
-Fecha_contacto:
-
-item.fecha_contacto
-
-?
-
-new Date(item.fecha_contacto)
-
-.toLocaleDateString("es-CO")
-
-:
-
-""
-
-
-
-}));
-
-
-
-
-const hoja=XLSX.utils.json_to_sheet(datos);
-
-
-
-const libro=XLSX.utils.book_new();
-
-
-
-XLSX.utils.book_append_sheet(
-
-libro,
-
-hoja,
-
-"Voluntarios"
-
-);
-
-
-
-XLSX.writeFile(
-
-libro,
-
-"Voluntarios_Corazon_Valiente.xlsx"
-
-);
-
-
-
+  XLSX.writeFile(
+    libro,
+    "Voluntarios_Corazon_Valiente.xlsx"
+  );
 }
 
 
@@ -359,51 +317,42 @@ libro,
 // FILTROS
 // ===============================
 
+const voluntariosFiltrados =
+  voluntarios.filter(item => {
 
-const voluntariosFiltrados = voluntarios.filter(item=>{
+    const termino =
+      busqueda.toLowerCase();
 
+    const texto =
+      item.nombre
+        .toLowerCase()
+        .includes(termino)
 
-const texto =
+      ||
 
-item.nombre
+      item.correo
+        .toLowerCase()
+        .includes(termino)
 
-.toLowerCase()
+      ||
 
-.includes(
+      (item.estudios || "")
+        .toLowerCase()
+        .includes(termino)
 
-busqueda.toLowerCase()
+      ||
 
-)
+      (item.area_conocimiento || "")
+        .toLowerCase()
+        .includes(termino);
 
-||
+    const estado =
+      filtroEstado === "todos"
+      ||
+      item.estado === filtroEstado;
 
-item.correo
-
-.toLowerCase()
-
-.includes(
-
-busqueda.toLowerCase()
-
-);
-
-
-
-const estado =
-
-filtroEstado==="todos"
-
-||
-
-item.estado===filtroEstado;
-
-
-
-return texto && estado;
-
-
-
-});
+    return texto && estado;
+  });
 
 
 
@@ -452,7 +401,7 @@ onClick={exportarExcel}
 
 <input
 
-placeholder="Buscar por nombre o correo..."
+placeholder="Buscar por nombre o correo,estudios o área."
 
 value={busqueda}
 
@@ -523,44 +472,15 @@ Cerrado
 
 
 <thead>
-
-
-<tr>
-
-
-<th>
-Nombre
-</th>
-
-
-<th>
-Correo
-</th>
-
-
-<th>
-Teléfono
-</th>
-
-
-<th>
-Estado
-</th>
-
-
-<th>
-Notas
-</th>
-
-
-<th>
-Acción
-</th>
-
-
-</tr>
-
-
+  <tr>
+    <th>Nombre</th>
+    <th>Correo</th>
+    <th>Teléfono</th>
+    <th>Estudios</th>
+    <th>Área de conocimiento</th>
+    <th>Estado</th>
+    <th>Acción</th>
+  </tr>
 </thead>
 
 
@@ -570,153 +490,75 @@ Acción
 
 <tbody>
 
-
-
-{
-
-voluntariosFiltrados.map(item=>(
-
-
-
-<tr key={item.id}>
-
-
-<td>
-{item.nombre}
-</td>
-
-
-<td>
-{item.correo}
-</td>
-
-
-<td>
-{item.telefono}
-</td>
-
-
-
-
-<td>
-
-
-<span
-
-className={`status ${
-item.estado==="pendiente"
-
-?
-
-"status-pendiente"
-
-:
-
-item.estado==="contactado"
-
-?
-
-"status-contactado"
-
-:
-
-item.estado==="aprobado"
-
-?
-
-"status-aprobado"
-
-:
-
-"status-cerrado"
-
-}`}
-
->
-
-{item.estado}
-
-</span>
-
-
-</td>
-
-
-
-
-<td>
-
-{
-
-item.notas_admin
-
-||
-
-<span style={{color:"#999"}}>
-
-Sin notas
-
-</span>
-
-}
-
-
-</td>
-
-
-
-
-
-<td>
-
-
-
-<button
-
-className="admin-action"
-
-onClick={()=>setSeleccionado(item)}
-
->
-
-Gestionar
-
-</button>
-
-
-
-<br />
-
-
-
-<button
-
-className="admin-delete"
-
-onClick={()=>eliminarVoluntario(item.id)}
-
->
-
-Eliminar
-
-</button>
-
-
-
-</td>
-
-
-
-
-</tr>
-
-
-
-))
-
-}
-
-
+  {voluntariosFiltrados.map(item => (
+
+    <tr key={item.id}>
+
+      <td>
+        {item.nombre}
+      </td>
+
+      <td>
+        {item.correo}
+      </td>
+
+      <td>
+        {item.telefono}
+      </td>
+
+      <td>
+        {item.estudios || "No registrado"}
+      </td>
+
+      <td>
+        {item.area_conocimiento || "No registrado"}
+      </td>
+
+      <td>
+
+        <span
+          className={`status ${
+            item.estado === "pendiente"
+              ? "status-pendiente"
+              : item.estado === "contactado"
+              ? "status-contactado"
+              : item.estado === "aprobado"
+              ? "status-aprobado"
+              : "status-cerrado"
+          }`}
+        >
+          {item.estado}
+        </span>
+
+      </td>
+
+      <td>
+
+        <button
+          className="admin-action"
+          onClick={() =>
+            setSeleccionado(item)
+          }
+        >
+          Gestionar
+        </button>
+
+        <br />
+
+        <button
+          className="admin-delete"
+          onClick={() =>
+            eliminarVoluntario(item.id)
+          }
+        >
+          Eliminar
+        </button>
+
+      </td>
+
+    </tr>
+
+  ))}
 
 </tbody>
 
@@ -799,6 +641,30 @@ Teléfono
 <strong>
 {seleccionado.telefono}
 </strong>
+
+</div>
+<div className="info-box">
+
+  <span>
+    Nivel de estudios
+  </span>
+
+  <strong>
+    {seleccionado.estudios || "No registrado"}
+  </strong>
+
+</div>
+
+
+<div className="info-box">
+
+  <span>
+    Área de conocimiento
+  </span>
+
+  <strong>
+    {seleccionado.area_conocimiento || "No registrado"}
+  </strong>
 
 </div>
 

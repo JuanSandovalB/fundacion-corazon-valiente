@@ -3,6 +3,7 @@ export const revalidate = 0;
 import Link from "next/link";
 import Image from "next/image";
 import Navbar from "./components/Navbar";
+import HeroCarousel from "./components/HeroCarousel";
 import {
   FaInstagram,
   FaFacebookF,
@@ -112,104 +113,167 @@ export default async function Home() {
 
       <section id="inicio" className="hero">
 
+  <div className="container hero-grid">
 
-        <div className="container hero-grid">
-          <div className="hero-content">
-            <span className="eyebrow">Fundación Corazón Valiente</span>
+    {/* =========================
+        CONTENIDO PRINCIPAL
+    ========================== */}
 
-            <h1>
-              Un corazón valiente es el que cree que su{" "}
-              <span>historia puede cambiar.</span>
-            </h1>
+    <div className="hero-content">
 
-            <p>
-              Acompañamos, protegemos e impulsamos a niños, mujeres, adultos
-              mayores y familias para que vivan con dignidad, esperanza y
-              oportunidades.
-            </p>
+      <span className="eyebrow">
+        Fundación Corazón Valiente
+      </span>
 
-            <div className="hero-buttons">
-              <a href="#donar" className="button button-primary">
-                ♡ Quiero ayudar
-              </a>
+      <h1>
+        Un corazón valiente es el que cree que su{" "}
+        <span>
+          historia puede cambiar.
+        </span>
+      </h1>
 
-              <a href="#nosotros" className="button button-outline">
-                Conoce más
-              </a>
-            </div>
-          </div>
+      <p>
+        Transformamos el dolor en fuerza y la fuerza en oportunidades. ✨
+        Impulsamos a mujeres, niños, adultos mayores, familias y comunidades
+        para que encuentren nuevas posibilidades.
+      </p>
 
-          <div className="hero-visual">
-            <div className="hero-photo">
-              <Image
-                src="/images/imagenP.jpg"
-                alt="Fundación Corazón Valiente Colombia"
-                fill
-                priority
-                sizes="(max-width: 900px) 100vw, 50vw"
-                className="hero-main-photo"
-              />
-            </div>
 
-            <div className="hero-character character-left">
-              <Image
-                src="/images/amelia.png"
-                alt="Amelia, personaje de la Fundación Corazón Valiente"
-                width={160}
-                height={190}
-                className="hero-character-image"
-              />
-            </div>
+      {/* =========================
+          BOTONES
+      ========================== */}
 
-            <div className="hero-character character-right">
-              <Image
-                src="/images/valentin.png"
-                alt="Valentín, personaje de la Fundación Corazón Valiente"
-                width={160}
-                height={190}
-                className="hero-character-image"
-              />
-            </div>
-          </div>
+      <div className="hero-buttons">
+
+        <a
+          href="#donar"
+          className="button button-primary hero-help-button"
+        >
+          ❤️ Quiero ayudar
+        </a>
+
+        <div className="hero-secondary-actions">
+
+          <a
+            href="#nosotros"
+            className="hero-small-button"
+          >
+            Conoce más
+          </a>
+
+          <a
+            href="#voluntariado"
+            className="hero-small-button hero-volunteer-small"
+          >
+            🤝 Ser voluntario
+          </a>
+
         </div>
 
-        <div className="container impact-bar">
-          <div>
-            <span>👨‍👩‍👧</span>
-            <p>
-              <strong>Niños y niñas</strong>
-              protegidos
-            </p>
-          </div>
+      </div>
 
-          <div>
-            <span>♡</span>
-            <p>
-              <strong>Familias</strong>
-              acompañadas
-            </p>
-          </div>
+    </div>
 
-          <div>
-            <span>🤲</span>
-            <p>
-              <strong>Voluntarios</strong>
-              comprometidos
-            </p>
-          </div>
 
-          <div>
-            <span>✨</span>
-            <p>
-              <strong>Comunidades</strong>
-              transformadas
-            </p>
-          </div>
-        </div>
-      </section>
+    {/* =========================
+        CARRUSEL + PERSONAJES
+    ========================== */}
+
+    <div className="hero-visual">
+
+      <div className="hero-photo">
+        <HeroCarousel />
+      </div>
+
+      <div className="hero-character character-left">
+        <Image
+          src="/images/amelia.png"
+          alt="Amelia, personaje de la Fundación Corazón Valiente"
+          width={160}
+          height={190}
+          className="hero-character-image"
+        />
+      </div>
+
+      <div className="hero-character character-right">
+        <Image
+          src="/images/valentin.png"
+          alt="Valentín, personaje de la Fundación Corazón Valiente"
+          width={160}
+          height={190}
+          className="hero-character-image"
+        />
+      </div>
+
+    </div>
+
+  </div>
+
+
+  {/* =========================
+      BARRA DE IMPACTO
+  ========================== */}
+
+  <div className="container impact-bar">
+
+    <div>
+      <span>👨‍👩‍👧</span>
+
+      <p>
+        <strong>
+          Niños y niñas
+        </strong>
+
+        protegidos
+      </p>
+    </div>
+
+
+    <div>
+      <span>♡</span>
+
+      <p>
+        <strong>
+          Familias
+        </strong>
+
+        acompañadas
+      </p>
+    </div>
+
+
+    <div>
+      <span>🤲</span>
+
+      <p>
+        <strong>
+          Voluntarios
+        </strong>
+
+        comprometidos
+      </p>
+    </div>
+
+
+    <div>
+      <span>✨</span>
+
+      <p>
+        <strong>
+          Comunidades
+        </strong>
+
+        transformadas
+      </p>
+    </div>
+
+  </div>
+
+</section>
 
       <section id="nosotros" className="section about-section">
         <div className="container about-grid">
+          
           <div className="about-logo-card">
 
             <Image
@@ -251,14 +315,16 @@ export default async function Home() {
               playsInline
             >
               <source
-                src="/videos/fundacion-corazon-valiente.mp4"
+                src="/videos/avianca.mp4"
                 type="video/mp4"
               />
 
               Tu navegador no puede reproducir este video.
             </video>
+            
 
           </div>
+          
         </div>
       </section>
 
